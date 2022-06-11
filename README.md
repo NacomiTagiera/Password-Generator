@@ -1,0 +1,1 @@
+Prosta strona generująca hasło składające się z 10 znaków. Po naciśnięciu przycisku Generate hasło zostanie wygenerowane. Kliknij ikonę Kopiuj, aby skopiować hasło. https://nacomitagiera.github.io/Pasword-Generator/
