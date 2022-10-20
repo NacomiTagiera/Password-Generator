@@ -5,52 +5,55 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.wrapper {
-  background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72);
+  background-image: linear-gradient(
+    to right top,
+    #051937,
+    #004d7a,
+    #008793,
+    #00bf72
+  );
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-div#root {
-  height: 100vh;
-}
-
 .container {
   background-color: #fff;
+  padding: 30px;
   width: 400px;
   max-width: 100%;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
   border-radius: 20px;
 }
 
-.wrapper-box {
-  padding: 30px;
+.header {
+  font-size: 30px;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
-.word-crieteria__box {
+.password-format {
   display: flex;
   justify-content: space-between;
   padding: 10px 0px;
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 25px;
-  font-size: 30px;
+.password-format label {
+  font-weight: 500;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  color: black;
+}
+
+input[type="number"] {
+  width: 60px;
+  height: 20px;
 }
 
 .generate-button {
@@ -64,13 +67,13 @@ div#root {
   height: 50px;
   margin-top: 30px;
   width: 100%;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
 .generate-button:hover {
   background-color: #0ca166;
   box-shadow: rgba(0, 0, 0, 0.86) 2px 2px 2px;
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
 .password-box {
@@ -78,7 +81,7 @@ div#root {
   justify-content: space-between;
 }
 
-.password-box>input[type='text'] {
+.password-box > input[type="text"] {
   width: 70%;
   height: 35px;
   margin-right: 10px;
@@ -88,7 +91,7 @@ div#root {
   letter-spacing: 2px;
 }
 
-button.copy-button {
+.copy-button {
   display: block;
   width: 25%;
   cursor: pointer;
@@ -98,26 +101,11 @@ button.copy-button {
   border-radius: 5px;
   background-color: #00bf72;
   box-shadow: rgba(0, 0, 0, 0.86) 5px 5px 5px;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
-button.copy-button:hover {
+.copy-button:hover {
   background-color: #0ca166;
   box-shadow: rgba(0, 0, 0, 0.86) 2px 2px 2px;
-  transform: scale(0.97);
-}
-
-.word-crieteria__box input[type='checkbox'] {
-  width: 20px;
-  height: 20px;
-  color: black;
-}
-
-.word-crieteria__box label {
-  font-weight: 500;
-}
-
-input[type='number'] {
-  width: 60px;
-  height: 20px;
+  transform: scale(0.98);
 }

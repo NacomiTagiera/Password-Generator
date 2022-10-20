@@ -1,1 +1,3 @@
-Simple page that generates a 10-character password. When you press the Generate button, a password will be generated. Click the Copy icon to copy the password.
+# React Random Password Generator
+
+Generate strong and random passwords. Upgrade the security of your online accounts - create strong passwords that are completely random and impossible to guess. Select the length of your new password, choose what symbols to include and copy your password easily.
