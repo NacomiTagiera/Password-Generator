@@ -21,28 +21,28 @@ function App() {
       let characterList = "";
       let pwd = "";
 
-      if (includeLowercase && password.length < length) {
+      if (includeLowercase) {
         characterList += lowercaseLetters;
         pwd += lowercaseLetters.charAt(
           Math.round(Math.random() * lowercaseLetters.length)
         );
       }
-      if (includeUppercase && password.length < length) {
+      if (includeUppercase) {
         characterList += uppercaseLetters;
         pwd += uppercaseLetters.charAt(
           Math.round(Math.random() * uppercaseLetters.length)
         );
       }
-      if (includeDigits && password.length < length) {
+      if (includeDigits) {
         characterList += digits;
         pwd += digits.charAt(Math.round(Math.random() * digits.length));
       }
-      if (includeSymbols && password.length < length) {
+      if (includeSymbols) {
         characterList += symbols;
         pwd += symbols.charAt(Math.round(Math.random() * symbols.length));
       }
 
-      for (let i = 0; i < length - pwd.length; i++) {
+      while (pwd.length < length) {
         const charIndex: number = Math.round(
           Math.random() * characterList.length
         );
