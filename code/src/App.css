@@ -1,10 +1,19 @@
-* {
-  margin: 0;
-  padding: 0;
+html {
+  font-size: 62.5%;
   box-sizing: border-box;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.1;
+  height: 100vh;
   background-image: linear-gradient(
     to right top,
     #051937,
@@ -14,98 +23,13 @@ body {
   );
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.container {
-  background-color: #fff;
-  padding: 30px;
-  width: 400px;
-  max-width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
-  border-radius: 20px;
-}
-
-.header {
-  font-size: 30px;
-  margin-bottom: 25px;
-  text-align: center;
-}
-
-.password-format {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0px;
-}
-
-.password-format label {
-  font-weight: 500;
-}
-
-input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  color: black;
-}
-
-input[type="number"] {
-  width: 60px;
-  height: 20px;
-}
-
-.generate-button {
-  background-color: #00bf72;
-  border-radius: 5px;
-  border: 0px;
-  box-shadow: rgba(0, 0, 0, 0.86) 4px 4px 4px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 700;
-  height: 50px;
-  margin-top: 30px;
-  width: 100%;
-  transition: all 0.5s ease-in-out;
-}
-
-.generate-button:hover {
-  background-color: #0ca166;
-  box-shadow: rgba(0, 0, 0, 0.86) 2px 2px 2px;
-  transform: scale(0.98);
-}
-
-.password-box {
-  display: flex;
-  justify-content: space-between;
-}
-
-.password-box > input[type="text"] {
-  width: 70%;
-  height: 35px;
-  margin-right: 10px;
-  font-size: 16px;
-  padding-left: 10px;
-  color: #000;
-  letter-spacing: 2px;
-}
-
-.copy-button {
-  display: block;
-  width: 25%;
-  cursor: pointer;
-  border: 0px;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 5px;
-  background-color: #00bf72;
-  box-shadow: rgba(0, 0, 0, 0.86) 5px 5px 5px;
-  transition: all 0.5s ease-in-out;
-}
-
-.copy-button:hover {
-  background-color: #0ca166;
-  box-shadow: rgba(0, 0, 0, 0.86) 2px 2px 2px;
-  transform: scale(0.98);
+@media (max-width: 575px) {
+  html {
+    font-size: 50%;
+  }
 }

@@ -1,15 +1,41 @@
 import { useState } from "react";
 
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  Card,
+  Checkbox,
+  Collapse,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+
 import "./App.css";
 
 function App() {
   const [password, setPassword] = useState<string>("");
-  const [length, setLength] = useState<number>(8);
-  const [includeLowercase, setIncludeLowercase] = useState<boolean>(false);
-  const [includeUppercase, setIncludeUppercase] = useState<boolean>(false);
-  const [includeDigits, setIncludeDigits] = useState<boolean>(false);
-  const [includeSymbols, setIncludeSymbols] = useState<boolean>(false);
+  const [length, setLength] = useState<number>(14);
+
+  const [includeDigits, setIncludeDigits] = useState<boolean>(true);
+  const [includeLowercase, setIncludeLowercase] = useState<boolean>(true);
+  const [includeSymbols, setIncludeSymbols] = useState<boolean>(true);
+  const [includeUppercase, setIncludeUppercase] = useState<boolean>(true);
+
   const [isCopied, setIsCopied] = useState<boolean>(false);
+
+  const boxStyles = {
+    display: "flex",
+    justifyContent: "space-between",
+  };
+
+  const typographyStyles = {
+    fontSize: "2rem",
+    fontWeight: 500,
+  };
 
   function handleGeneratePassword() {
     const uppercaseLetters: string = "QWERTYUIOPASDFGHJKLZXCVBNM";
@@ -54,92 +80,125 @@ function App() {
   }
 
   return (
-    <div className="container">
-      <h1 className="header">Password Generator</h1>
-      <div className="password-box">
-        <input
-          type="text"
-          value={password}
-          placeholder="Password..."
-          autoComplete="off"
-          readOnly={true}
-        />
-        <button
-          className="copy-button"
-          onClick={() => {
-            if (password.length > 0) {
-              navigator.clipboard.writeText(password);
-              setIsCopied(true);
-              setInterval(() => {
-                setIsCopied(false);
-              }, 2500);
-            }
+    <>
+      <Card
+        variant="outlined"
+        sx={{
+          border: 2.5,
+          borderRadius: "1.5rem",
+          boxShadow: 14,
+          marginInline: "auto",
+          padding: "3rem",
+          width: "40rem",
+        }}
+      >
+        <Typography
+          component="h2"
+          sx={{
+            fontSize: "3rem",
+            fontWeight: 700,
+            lineHeight: 1.1,
+            mb: "2.5rem",
+            textAlign: "center",
           }}
         >
-          {isCopied ? "Copied!" : "Copy"}
-        </button>
-      </div>
-      <br />
-      <div className="password-format">
-        <div>
-          <label>Password length</label>
-        </div>
-        <div>
-          <input
-            type="number"
-            min="8"
-            max="25"
-            value={length}
-            onChange={(e) => setLength(Number(e.target.value))}
+          Password Generator
+        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+          <TextField
+            variant="outlined"
+            value={password}
+            placeholder="Password..."
+            autoComplete="off"
+            inputProps={{
+              readOnly: true,
+            }}
+            sx={{ fontSize: "4rem", fontWeight: "bold" }}
           />
-        </div>
-      </div>
-      <div className="password-format">
-        <div>
-          <label>Include uppercase letters</label>
-        </div>
-        <input
-          checked={includeUppercase}
-          onChange={(e) => setIncludeUppercase(e.target.checked)}
-          type="checkbox"
-        />
-      </div>
-      <div className="password-format">
-        <div>
-          <label>Include lowercase letters</label>
-        </div>
-        <input
-          checked={includeLowercase}
-          onChange={(e) => setIncludeLowercase(e.target.checked)}
-          type="checkbox"
-        />
-      </div>
-      <div className="password-format">
-        <div>
-          <label>Include numbers</label>
-        </div>
-        <input
-          checked={includeDigits}
-          onChange={(e) => setIncludeDigits(e.target.checked)}
-          type="checkbox"
-        />
-      </div>
-      <div className="password-format">
-        <div>
-          <label>Include symbols</label>
-        </div>
-        <input
-          checked={includeSymbols}
-          onChange={(e) => setIncludeSymbols(e.target.checked)}
-          type="checkbox"
-        />
-      </div>
-      <div>
-        <button className="generate-button" onClick={handleGeneratePassword}>
+          <Button
+            variant="contained"
+            disabled={isCopied || password.length === 0}
+            onClick={() => {
+              navigator.clipboard.writeText(password);
+              setIsCopied(true);
+              setTimeout(() => {
+                setIsCopied(false);
+              }, 2500);
+            }}
+          >
+            <ContentCopyIcon />
+          </Button>
+        </Box>
+        <Stack spacing={1} sx={{ mt: 5 }}>
+          <Box sx={boxStyles}>
+            <Typography sx={typographyStyles}>Password length</Typography>
+            <input
+              type="number"
+              min="8"
+              max="25"
+              value={length}
+              onChange={(e) => setLength(Number(e.target.value))}
+            />
+          </Box>
+          <Box sx={boxStyles}>
+            <Typography sx={typographyStyles}>
+              Include uppercase letters
+            </Typography>
+            <Checkbox
+              sx={{ scale: "1.2" }}
+              checked={includeUppercase}
+              onChange={(e) => setIncludeUppercase(e.target.checked)}
+            />
+          </Box>
+          <Box sx={boxStyles}>
+            <Typography sx={typographyStyles}>
+              Include lowercase letters
+            </Typography>
+            <Checkbox
+              sx={{ scale: "1.2" }}
+              checked={includeLowercase}
+              onChange={(e) => setIncludeLowercase(e.target.checked)}
+            />
+          </Box>
+          <Box sx={boxStyles}>
+            <Typography sx={typographyStyles}>Include numbers</Typography>
+            <Checkbox
+              sx={{ scale: "1.2" }}
+              checked={includeDigits}
+              onChange={(e) => setIncludeDigits(e.target.checked)}
+            />
+          </Box>
+          <Box sx={boxStyles}>
+            <Typography sx={typographyStyles}>Include symbols</Typography>
+            <Checkbox
+              sx={{ scale: "1.2" }}
+              checked={includeSymbols}
+              onChange={(e) => setIncludeSymbols(e.target.checked)}
+            />
+          </Box>
+        </Stack>
+        <Button
+          variant="contained"
+          fullWidth
+          disabled={
+            !includeDigits &&
+            !includeLowercase &&
+            !includeSymbols &&
+            !includeUppercase
+          }
+          sx={{ fontWeight: 600, letterSpacing: 1, mt: 3 }}
+          onClick={() => handleGeneratePassword()}
+        >
           Generate password
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Card>
+      <Collapse in={isCopied} sx={{ position: "absolute", top: 0 }}>
+        <Alert severity="success" sx={{ fontSize: "2rem", fontWeight: 500 }}>
+          <AlertTitle sx={{ fontSize: "2.5rem" }}>Success!</AlertTitle>
+          Password has been successfully copied!
+        </Alert>
+      </Collapse>
+    </>
   );
 }
 
