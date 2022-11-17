@@ -8,6 +8,7 @@ import {
   Card,
   Checkbox,
   Collapse,
+  Slider,
   Stack,
   TextField,
   Typography,
@@ -35,6 +36,10 @@ function App() {
   const typographyStyles = {
     fontSize: "2rem",
     fontWeight: 500,
+  };
+
+  const handleChangeLength = (event: Event, newLength: number | number[]) => {
+    setLength(newLength as number);
   };
 
   function handleGeneratePassword() {
@@ -130,16 +135,17 @@ function App() {
           </Button>
         </Box>
         <Stack spacing={1} sx={{ mt: 5 }}>
-          <Box sx={boxStyles}>
-            <Typography sx={typographyStyles}>Password length</Typography>
-            <input
-              type="number"
-              min="8"
-              max="25"
-              value={length}
-              onChange={(e) => setLength(Number(e.target.value))}
-            />
-          </Box>
+          <Typography sx={{ ...typographyStyles, textAlign: "center" }}>
+            Password length
+          </Typography>
+          <Slider
+            min={8}
+            max={30}
+            value={length}
+            valueLabelDisplay="auto"
+            onChange={handleChangeLength}
+          />
+
           <Box sx={boxStyles}>
             <Typography sx={typographyStyles}>
               Include uppercase letters
@@ -150,6 +156,7 @@ function App() {
               onChange={(e) => setIncludeUppercase(e.target.checked)}
             />
           </Box>
+
           <Box sx={boxStyles}>
             <Typography sx={typographyStyles}>
               Include lowercase letters
@@ -160,6 +167,7 @@ function App() {
               onChange={(e) => setIncludeLowercase(e.target.checked)}
             />
           </Box>
+
           <Box sx={boxStyles}>
             <Typography sx={typographyStyles}>Include numbers</Typography>
             <Checkbox
@@ -168,6 +176,7 @@ function App() {
               onChange={(e) => setIncludeDigits(e.target.checked)}
             />
           </Box>
+
           <Box sx={boxStyles}>
             <Typography sx={typographyStyles}>Include symbols</Typography>
             <Checkbox
