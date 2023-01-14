@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import {
   Alert,
   AlertTitle,
@@ -17,7 +16,17 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 import "./App.css";
 
-function App() {
+const boxStyles = {
+  display: "flex",
+  justifyContent: "space-between",
+};
+
+const typographyStyles = {
+  fontSize: "2rem",
+  fontWeight: 500,
+};
+
+export default function App() {
   const [password, setPassword] = useState<string>("");
   const [length, setLength] = useState<number>(14);
 
@@ -28,29 +37,19 @@ function App() {
 
   const [isCopied, setIsCopied] = useState<boolean>(false);
 
-  const boxStyles = {
-    display: "flex",
-    justifyContent: "space-between",
-  };
-
-  const typographyStyles = {
-    fontSize: "2rem",
-    fontWeight: 500,
-  };
-
   const handleChangeLength = (event: Event, newLength: number | number[]) => {
     setLength(newLength as number);
   };
 
   function handleGeneratePassword() {
-    const uppercaseLetters: string = "QWERTYUIOPASDFGHJKLZXCVBNM";
-    const lowercaseLetters: string = "qwertyuiopasdfghjklzxcvbnm";
-    const digits: string = "0123456789";
-    const symbols: string = "!@#$%^&*()-_=+{}[]<>,.";
+    const digits = "0123456789";
+    const lowercaseLetters = "qwertyuiopasdfghjklzxcvbnm";
+    const symbols = "!@#$%^&*()-_=+{}[]<>,.";
+    const uppercaseLetters = "QWERTYUIOPASDFGHJKLZXCVBNM";
 
     function createPassword() {
-      let characterList = "";
-      let pwd = "";
+      let characterList: string = "";
+      let pwd: string = "";
 
       if (includeLowercase) {
         characterList += lowercaseLetters;
@@ -210,5 +209,3 @@ function App() {
     </>
   );
 }
-
-export default App;
