@@ -1,3 +1,3 @@
-# React Random Password Generator
+# React.js Random Password Generator
 
-Generate strong and random passwords. Upgrade the security of your online accounts - create strong passwords that are completely random and impossible to guess. Select the length of your new password, choose what symbols to include and copy your password easily.
+This website generates for you strong, random passwords, so that you can be safe online. Select the length, choose what symbols to include and copy your password easily. In the future, I want to add unit tests to this project.
