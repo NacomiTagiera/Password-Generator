@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-
+import { usePasswordGenerator } from "./hooks/usePasswordGenerator";
 import "./App.css";
 
 const boxStyles = {
@@ -27,61 +27,24 @@ const typographyStyles = {
 };
 
 export default function App() {
-  const [password, setPassword] = useState<string>("");
-  const [length, setLength] = useState<number>(14);
-
   const [includeDigits, setIncludeDigits] = useState<boolean>(true);
   const [includeLowercase, setIncludeLowercase] = useState<boolean>(true);
   const [includeSymbols, setIncludeSymbols] = useState<boolean>(true);
   const [includeUppercase, setIncludeUppercase] = useState<boolean>(true);
-
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [length, setLength] = useState<number>(14);
+
+  const { password, generatePassword } = usePasswordGenerator({
+    includeDigits,
+    includeLowercase,
+    includeSymbols,
+    includeUppercase,
+    length,
+  });
 
   const handleChangeLength = (event: Event, newLength: number | number[]) => {
     setLength(newLength as number);
   };
-
-  function handleGeneratePassword() {
-    const digits = "0123456789";
-    const lowercaseLetters = "qwertyuiopasdfghjklzxcvbnm";
-    const symbols = "!@#$%^&*()-_=+{}[]<>,.";
-    const uppercaseLetters = "QWERTYUIOPASDFGHJKLZXCVBNM";
-
-    function createPassword() {
-      let characterList: string = "";
-      let pwd: string = "";
-
-      if (includeLowercase) {
-        characterList += lowercaseLetters;
-        pwd += lowercaseLetters.charAt(
-          Math.round(Math.random() * lowercaseLetters.length)
-        );
-      }
-      if (includeUppercase) {
-        characterList += uppercaseLetters;
-        pwd += uppercaseLetters.charAt(
-          Math.round(Math.random() * uppercaseLetters.length)
-        );
-      }
-      if (includeDigits) {
-        characterList += digits;
-        pwd += digits.charAt(Math.round(Math.random() * digits.length));
-      }
-      if (includeSymbols) {
-        characterList += symbols;
-        pwd += symbols.charAt(Math.round(Math.random() * symbols.length));
-      }
-
-      while (pwd.length < length) {
-        const charIndex: number = Math.round(
-          Math.random() * characterList.length
-        );
-        pwd += characterList.charAt(charIndex);
-      }
-      return pwd;
-    }
-    setPassword(createPassword());
-  }
 
   return (
     <>
@@ -121,7 +84,7 @@ export default function App() {
           />
           <Button
             variant="contained"
-            disabled={isCopied || password.length === 0}
+            disabled={isCopied || !password.length}
             onClick={() => {
               navigator.clipboard.writeText(password);
               setIsCopied(true);
@@ -168,7 +131,7 @@ export default function App() {
           </Box>
 
           <Box sx={boxStyles}>
-            <Typography sx={typographyStyles}>Include numbers</Typography>
+            <Typography sx={typographyStyles}>Include digits</Typography>
             <Checkbox
               sx={{ scale: "1.2" }}
               checked={includeDigits}
@@ -195,7 +158,7 @@ export default function App() {
             !includeUppercase
           }
           sx={{ fontWeight: 600, letterSpacing: 1, mt: 3 }}
-          onClick={() => handleGeneratePassword()}
+          onClick={generatePassword}
         >
           Generate password
         </Button>
