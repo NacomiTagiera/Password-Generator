@@ -14,16 +14,26 @@ export const usePasswordGenerator = ({
   includeSymbols = true,
   includeUppercase = true,
   length = 14,
-}: Props) => {
+}: Props = {}) => {
   const [password, setPassword] = useState<string>("");
 
   const generatePassword = () => {
     const digits = "0123456789";
     const lowercaseLetters = "qwertyuiopasdfghjklzxcvbnm";
-    const symbols = "!@#$%^&*()-_=+{}[]<>,.";
+    const symbols = "!@#$%^&*-_=+<>,.";
     const uppercaseLetters = "QWERTYUIOPASDFGHJKLZXCVBNM";
 
     const createPassword = () => {
+      if (
+        (!includeDigits &&
+          !includeLowercase &&
+          !includeSymbols &&
+          !includeUppercase) ||
+        length <= 0
+      ) {
+        return "";
+      }
+
       let characterList: string = "";
       let pwd: string = "";
 

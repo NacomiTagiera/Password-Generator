@@ -16,14 +16,10 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { usePasswordGenerator } from "./hooks/usePasswordGenerator";
 import "./App.css";
 
-const boxStyles = {
+const labelStyles = {
+  fontSize: "2rem",
   display: "flex",
   justifyContent: "space-between",
-};
-
-const typographyStyles = {
-  fontSize: "2rem",
-  fontWeight: 500,
 };
 
 export default function App() {
@@ -83,6 +79,7 @@ export default function App() {
             sx={{ fontSize: "4rem", fontWeight: "bold" }}
           />
           <Button
+            title="Copy"
             variant="contained"
             disabled={isCopied || !password.length}
             onClick={() => {
@@ -97,7 +94,9 @@ export default function App() {
           </Button>
         </Box>
         <Stack spacing={1} sx={{ mt: 5 }}>
-          <Typography sx={{ ...typographyStyles, textAlign: "center" }}>
+          <Typography
+            sx={{ fontSize: "2rem", fontWeight: 500, textAlign: "center" }}
+          >
             Password length
           </Typography>
           <Slider
@@ -108,45 +107,41 @@ export default function App() {
             onChange={handleChangeLength}
           />
 
-          <Box sx={boxStyles}>
-            <Typography sx={typographyStyles}>
-              Include uppercase letters
-            </Typography>
+          <label style={labelStyles}>
+            Include uppercase letters
             <Checkbox
               sx={{ scale: "1.2" }}
               checked={includeUppercase}
               onChange={(e) => setIncludeUppercase(e.target.checked)}
             />
-          </Box>
+          </label>
 
-          <Box sx={boxStyles}>
-            <Typography sx={typographyStyles}>
-              Include lowercase letters
-            </Typography>
+          <label style={labelStyles}>
+            Include lowercase letters
             <Checkbox
               sx={{ scale: "1.2" }}
               checked={includeLowercase}
               onChange={(e) => setIncludeLowercase(e.target.checked)}
             />
-          </Box>
+          </label>
 
-          <Box sx={boxStyles}>
-            <Typography sx={typographyStyles}>Include digits</Typography>
+          <label style={labelStyles}>
+            Include digits
             <Checkbox
               sx={{ scale: "1.2" }}
               checked={includeDigits}
               onChange={(e) => setIncludeDigits(e.target.checked)}
             />
-          </Box>
+          </label>
 
-          <Box sx={boxStyles}>
-            <Typography sx={typographyStyles}>Include symbols</Typography>
+          <label style={labelStyles}>
+            Include symbols
             <Checkbox
               sx={{ scale: "1.2" }}
               checked={includeSymbols}
               onChange={(e) => setIncludeSymbols(e.target.checked)}
             />
-          </Box>
+          </label>
         </Stack>
         <Button
           variant="contained"
