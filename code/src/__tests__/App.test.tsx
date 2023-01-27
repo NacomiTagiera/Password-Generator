@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import App from "./App";
 import user from "@testing-library/user-event";
+import App from "../App";
+import { defaultPasswordLength } from "../hooks/usePasswordGenerator";
 
 describe("App", () => {
   test("renders correctly", () => {
@@ -22,7 +23,7 @@ describe("App", () => {
     expect(checkboxes).toHaveLength(4);
 
     const generatePasswordButton = screen.getByRole("button", {
-      name: /generate password/i,
+      name: /generate/i,
     });
     expect(generatePasswordButton).toBeInTheDocument();
   });
@@ -37,7 +38,7 @@ describe("App", () => {
     expect(copyButton).toBeDisabled();
 
     const slider = screen.getByRole("slider");
-    expect(slider).toHaveValue("14");
+    expect(slider).toHaveValue(`${defaultPasswordLength}`);
 
     const digitsCheckbox = screen.getByLabelText(/digits/i);
     expect(digitsCheckbox).toBeChecked();
@@ -60,7 +61,7 @@ describe("App", () => {
     const symbolsCheckbox = screen.getByLabelText(/symbols/i);
     const uppercaseCheckbox = screen.getByLabelText(/uppercase/i);
     const generatePasswordButton = screen.getByRole("button", {
-      name: "Generate password",
+      name: "Generate",
     });
     const passwordInput = screen.getByPlaceholderText(/password.../i);
     const slider = screen.getByRole("slider");

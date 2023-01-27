@@ -16,6 +16,11 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { usePasswordGenerator } from "./hooks/usePasswordGenerator";
 import "./App.css";
 
+const checkboxStyles = {
+  p: 0,
+  scale: "1.4",
+};
+
 const labelStyles = {
   fontSize: "2rem",
   display: "flex",
@@ -67,6 +72,7 @@ export default function App() {
         >
           Password Generator
         </Typography>
+
         <Box sx={{ display: "flex", justifyContent: "space-around" }}>
           <TextField
             variant="outlined"
@@ -75,8 +81,8 @@ export default function App() {
             autoComplete="off"
             inputProps={{
               readOnly: true,
+              style: { fontSize: "1.5rem", fontWeight: 500, paddingBlock: 15 },
             }}
-            sx={{ fontSize: "4rem", fontWeight: "bold" }}
           />
           <Button
             title="Copy"
@@ -93,11 +99,12 @@ export default function App() {
             <ContentCopyIcon />
           </Button>
         </Box>
-        <Stack spacing={1} sx={{ mt: 5 }}>
+
+        <Stack spacing={2} sx={{ mt: 5 }}>
           <Typography
             sx={{ fontSize: "2rem", fontWeight: 500, textAlign: "center" }}
           >
-            Password length
+            {`Password length: ${length}`}
           </Typography>
           <Slider
             min={8}
@@ -110,7 +117,7 @@ export default function App() {
           <label style={labelStyles}>
             Include uppercase letters
             <Checkbox
-              sx={{ scale: "1.2" }}
+              sx={checkboxStyles}
               checked={includeUppercase}
               onChange={(e) => setIncludeUppercase(e.target.checked)}
             />
@@ -119,7 +126,7 @@ export default function App() {
           <label style={labelStyles}>
             Include lowercase letters
             <Checkbox
-              sx={{ scale: "1.2" }}
+              sx={checkboxStyles}
               checked={includeLowercase}
               onChange={(e) => setIncludeLowercase(e.target.checked)}
             />
@@ -128,7 +135,7 @@ export default function App() {
           <label style={labelStyles}>
             Include digits
             <Checkbox
-              sx={{ scale: "1.2" }}
+              sx={checkboxStyles}
               checked={includeDigits}
               onChange={(e) => setIncludeDigits(e.target.checked)}
             />
@@ -137,7 +144,7 @@ export default function App() {
           <label style={labelStyles}>
             Include symbols
             <Checkbox
-              sx={{ scale: "1.2" }}
+              sx={checkboxStyles}
               checked={includeSymbols}
               onChange={(e) => setIncludeSymbols(e.target.checked)}
             />
@@ -152,10 +159,16 @@ export default function App() {
             !includeSymbols &&
             !includeUppercase
           }
-          sx={{ fontWeight: 600, letterSpacing: 1, mt: 3 }}
+          sx={{
+            fontSize: "1.5rem",
+            fontWeight: 600,
+            letterSpacing: 1,
+            mt: 3,
+            py: 1,
+          }}
           onClick={generatePassword}
         >
-          Generate password
+          Generate
         </Button>
       </Card>
       <Collapse in={isCopied} sx={{ position: "absolute", top: 0 }}>

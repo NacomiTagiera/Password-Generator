@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+export const defaultPasswordLength = 14;
+
 interface Props {
   includeDigits?: boolean;
   includeLowercase?: boolean;
@@ -13,7 +15,7 @@ export const usePasswordGenerator = ({
   includeLowercase = true,
   includeSymbols = true,
   includeUppercase = true,
-  length = 14,
+  length = defaultPasswordLength,
 }: Props = {}) => {
   const [password, setPassword] = useState<string>("");
 
