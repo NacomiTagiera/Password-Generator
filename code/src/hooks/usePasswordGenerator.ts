@@ -10,6 +10,24 @@ interface Props {
   length?: number;
 }
 
+const shufflePassword = (password: string) => {
+  const passwordArray = password.split("");
+  let randomIndex,
+    currentIndex = password.length;
+
+  while (currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [passwordArray[currentIndex], passwordArray[randomIndex]] = [
+      passwordArray[randomIndex],
+      passwordArray[currentIndex],
+    ];
+  }
+
+  return passwordArray.join("");
+};
+
 export const usePasswordGenerator = ({
   includeDigits = true,
   includeLowercase = true,
@@ -42,29 +60,29 @@ export const usePasswordGenerator = ({
       if (includeLowercase) {
         characterList += lowercaseLetters;
         pwd += lowercaseLetters.charAt(
-          Math.round(Math.random() * lowercaseLetters.length)
+          Math.floor(Math.random() * lowercaseLetters.length)
         );
       }
       if (includeUppercase) {
         characterList += uppercaseLetters;
         pwd += uppercaseLetters.charAt(
-          Math.round(Math.random() * uppercaseLetters.length)
+          Math.floor(Math.random() * uppercaseLetters.length)
         );
       }
       if (includeDigits) {
         characterList += digits;
-        pwd += digits.charAt(Math.round(Math.random() * digits.length));
+        pwd += digits.charAt(Math.floor(Math.random() * digits.length));
       }
       if (includeSymbols) {
         characterList += symbols;
-        pwd += symbols.charAt(Math.round(Math.random() * symbols.length));
+        pwd += symbols.charAt(Math.floor(Math.random() * symbols.length));
       }
 
       while (pwd.length < length) {
-        const charIndex = Math.round(Math.random() * characterList.length);
+        const charIndex = Math.floor(Math.random() * characterList.length);
         pwd += characterList.charAt(charIndex);
       }
-      return pwd;
+      return shufflePassword(pwd);
     };
     setPassword(createPassword());
   };

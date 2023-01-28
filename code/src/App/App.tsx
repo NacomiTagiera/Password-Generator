@@ -13,7 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { usePasswordGenerator } from "./hooks/usePasswordGenerator";
+import {
+  defaultPasswordLength,
+  usePasswordGenerator,
+} from "../hooks/usePasswordGenerator";
 import "./App.css";
 
 const checkboxStyles = {
@@ -33,7 +36,7 @@ export default function App() {
   const [includeSymbols, setIncludeSymbols] = useState<boolean>(true);
   const [includeUppercase, setIncludeUppercase] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const [length, setLength] = useState<number>(14);
+  const [length, setLength] = useState<number>(defaultPasswordLength);
 
   const { password, generatePassword } = usePasswordGenerator({
     includeDigits,

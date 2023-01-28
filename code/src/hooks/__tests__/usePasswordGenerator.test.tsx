@@ -107,6 +107,72 @@ describe("usePasswordGenerator", () => {
     expect(result.current.password).toMatch(uppercaseOnlyRegex);
   });
 
+  test("should generate correct password when digits and lowercase letters options are checked", () => {
+    const { result } = renderHook(usePasswordGenerator, {
+      initialProps: {
+        includeSymbols: false,
+        includeUppercase: false,
+      },
+    });
+    act(() => result.current.generatePassword());
+
+    const digitsAndLowerRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{" + defaultPasswordLength + "}$"
+    );
+
+    expect(result.current.password).toMatch(digitsAndLowerRegex);
+  });
+
+  test("should generate correct password when digits and symbols options are checked", () => {
+    const { result } = renderHook(usePasswordGenerator, {
+      initialProps: {
+        includeLowercase: false,
+        includeUppercase: false,
+      },
+    });
+    act(() => result.current.generatePassword());
+
+    const digitsAndSymbolsRegex = new RegExp(
+      "^((?=.*[0-9]))(?=.*[!@#$%^&*-_=+<>,.])[0-9!@#$%^&*-_=+<>,.]{" +
+        defaultPasswordLength +
+        "}$"
+    );
+
+    expect(result.current.password).toMatch(digitsAndSymbolsRegex);
+  });
+
+  test("should generate correct password when digits and uppercase letters options are checked", () => {
+    const { result } = renderHook(usePasswordGenerator, {
+      initialProps: {
+        includeLowercase: false,
+        includeSymbols: false,
+      },
+    });
+    act(() => result.current.generatePassword());
+
+    const digitsAndLowerRegex = new RegExp(
+      "^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]{" + defaultPasswordLength + "}$"
+    );
+
+    expect(result.current.password).toMatch(digitsAndLowerRegex);
+  });
+
+  test("should generate correct password when lower and uppercase letters options are checked", () => {
+    const { result } = renderHook(usePasswordGenerator, {
+      initialProps: {
+        includeDigits: false,
+        includeSymbols: false,
+      },
+    });
+    act(() => result.current.generatePassword());
+
+    const lowerAndUpperRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z]{" + defaultPasswordLength + "}$"
+    );
+
+    expect(result.current.password).toMatch(lowerAndUpperRegex);
+  });
+
   test("should generate correct password when everything is checked", () => {
     const { result } = renderHook(usePasswordGenerator);
     act(() => result.current.generatePassword());
