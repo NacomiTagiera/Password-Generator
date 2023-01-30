@@ -87,4 +87,30 @@ describe("App", () => {
     user.tab();
     expect(generatePasswordButton).toHaveFocus();
   });
+
+  test("generate password button is disabled when no options are checked", () => {
+    render(<App />);
+
+    const digitsCheckbox = screen.getByLabelText(/digits/i);
+    const lowercaseCheckbox = screen.getByLabelText(/lowercase/i);
+    const symbolsCheckbox = screen.getByLabelText(/symbols/i);
+    const uppercaseCheckbox = screen.getByLabelText(/uppercase/i);
+    const generatePasswordButton = screen.getByRole("button", {
+      name: "Generate",
+    });
+
+    user.click(uppercaseCheckbox);
+    expect(uppercaseCheckbox).not.toBeChecked();
+
+    user.click(lowercaseCheckbox);
+    expect(lowercaseCheckbox).not.toBeChecked();
+
+    user.click(digitsCheckbox);
+    expect(digitsCheckbox).not.toBeChecked();
+
+    user.click(symbolsCheckbox);
+    expect(symbolsCheckbox).not.toBeChecked();
+
+    expect(generatePasswordButton).toBeDisabled();
+  });
 });

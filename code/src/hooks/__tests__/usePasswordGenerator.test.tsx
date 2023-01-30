@@ -1,4 +1,4 @@
-import { renderHook, act } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import {
   defaultPasswordLength,
   usePasswordGenerator,
@@ -43,8 +43,8 @@ describe("usePasswordGenerator", () => {
     const { result } = renderHook(usePasswordGenerator, {
       initialProps: {
         includeLowercase: false,
-        includeUppercase: false,
         includeSymbols: false,
+        includeUppercase: false,
       },
     });
     act(() => result.current.generatePassword());
@@ -60,8 +60,8 @@ describe("usePasswordGenerator", () => {
     const { result } = renderHook(usePasswordGenerator, {
       initialProps: {
         includeDigits: false,
-        includeUppercase: false,
         includeSymbols: false,
+        includeUppercase: false,
       },
     });
     act(() => result.current.generatePassword());
@@ -117,7 +117,7 @@ describe("usePasswordGenerator", () => {
     act(() => result.current.generatePassword());
 
     const digitsAndLowerRegex = new RegExp(
-      "^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{" + defaultPasswordLength + "}$"
+      "^(?=.*[a-z])(?=.*[0-9])\\S{" + defaultPasswordLength + "}$"
     );
 
     expect(result.current.password).toMatch(digitsAndLowerRegex);
@@ -133,9 +133,7 @@ describe("usePasswordGenerator", () => {
     act(() => result.current.generatePassword());
 
     const digitsAndSymbolsRegex = new RegExp(
-      "^((?=.*[0-9]))(?=.*[!@#$%^&*-_=+<>,.])[0-9!@#$%^&*-_=+<>,.]{" +
-        defaultPasswordLength +
-        "}$"
+      "^(?=.*[0-9])(?=.*[!@#$%^&*-_=+<>,.])\\S{" + defaultPasswordLength + "}$"
     );
 
     expect(result.current.password).toMatch(digitsAndSymbolsRegex);
@@ -151,10 +149,26 @@ describe("usePasswordGenerator", () => {
     act(() => result.current.generatePassword());
 
     const digitsAndLowerRegex = new RegExp(
-      "^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]{" + defaultPasswordLength + "}$"
+      "^(?=.*[A-Z])(?=.*[0-9])\\S{" + defaultPasswordLength + "}$"
     );
 
     expect(result.current.password).toMatch(digitsAndLowerRegex);
+  });
+
+  test("should generate correct password when lowercase letters and symbols options are checked", () => {
+    const { result } = renderHook(usePasswordGenerator, {
+      initialProps: {
+        includeDigits: false,
+        includeUppercase: false,
+      },
+    });
+    act(() => result.current.generatePassword());
+
+    const lowerAndSymbolsRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[!@#$%^&*-_=+<>,.])\\S{" + defaultPasswordLength + "}$"
+    );
+
+    expect(result.current.password).toMatch(lowerAndSymbolsRegex);
   });
 
   test("should generate correct password when lower and uppercase letters options are checked", () => {
@@ -167,10 +181,92 @@ describe("usePasswordGenerator", () => {
     act(() => result.current.generatePassword());
 
     const lowerAndUpperRegex = new RegExp(
-      "^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z]{" + defaultPasswordLength + "}$"
+      "^(?=.*[a-z])(?=.*[A-Z])\\S{" + defaultPasswordLength + "}$"
     );
 
     expect(result.current.password).toMatch(lowerAndUpperRegex);
+  });
+
+  test("should generate correct password when symbols and uppercase letters options are checked", () => {
+    const { result } = renderHook(usePasswordGenerator, {
+      initialProps: {
+        includeDigits: false,
+        includeLowercase: false,
+      },
+    });
+    act(() => result.current.generatePassword());
+
+    const symbolsAndUpperRegex = new RegExp(
+      "^(?=.*[!@#$%^&*-_=+<>,.])(?=.*[A-Z])\\S{" + defaultPasswordLength + "}$"
+    );
+
+    expect(result.current.password).toMatch(symbolsAndUpperRegex);
+  });
+
+  test("should generate correct password when everything is checked except digits", () => {
+    const { result } = renderHook(usePasswordGenerator, {
+      initialProps: {
+        includeDigits: false,
+      },
+    });
+    act(() => result.current.generatePassword());
+
+    const allExceptDigitsRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*-_=+<>,.])\\S{" +
+        defaultPasswordLength +
+        "}$"
+    );
+
+    expect(result.current.password).toMatch(allExceptDigitsRegex);
+  });
+
+  test("should generate correct password when everything is checked except lowercase letters", () => {
+    const { result } = renderHook(usePasswordGenerator, {
+      initialProps: {
+        includeLowercase: false,
+      },
+    });
+    act(() => result.current.generatePassword());
+
+    const allExceptLowercaseRegex = new RegExp(
+      "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*-_=+<>,.])\\S{" +
+        defaultPasswordLength +
+        "}$"
+    );
+
+    expect(result.current.password).toMatch(allExceptLowercaseRegex);
+  });
+
+  test("should generate correct password when everything is checked except symbols", () => {
+    const { result } = renderHook(usePasswordGenerator, {
+      initialProps: {
+        includeSymbols: false,
+      },
+    });
+    act(() => result.current.generatePassword());
+
+    const allExceptSymbolsRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])\\S{" + defaultPasswordLength + "}$"
+    );
+
+    expect(result.current.password).toMatch(allExceptSymbolsRegex);
+  });
+
+  test("should generate correct password when everything is checked except uppercase letters", () => {
+    const { result } = renderHook(usePasswordGenerator, {
+      initialProps: {
+        includeUppercase: false,
+      },
+    });
+    act(() => result.current.generatePassword());
+
+    const allExceptUppercaseRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*-_=+<>,.])\\S{" +
+        defaultPasswordLength +
+        "}$"
+    );
+
+    expect(result.current.password).toMatch(allExceptUppercaseRegex);
   });
 
   test("should generate correct password when everything is checked", () => {
