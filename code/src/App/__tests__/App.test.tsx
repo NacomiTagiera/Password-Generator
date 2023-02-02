@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import App from "../App";
 import { defaultPasswordLength } from "../../hooks/usePasswordGenerator";
@@ -40,26 +40,16 @@ describe("App", () => {
     const slider = screen.getByRole("slider");
     expect(slider).toHaveValue(`${defaultPasswordLength}`);
 
-    const digitsCheckbox = screen.getByLabelText(/digits/i);
-    expect(digitsCheckbox).toBeChecked();
-
-    const lowercaseCheckbox = screen.getByLabelText(/lowercase/i);
-    expect(lowercaseCheckbox).toBeChecked();
-
-    const symbolsCheckbox = screen.getByLabelText(/symbols/i);
-    expect(symbolsCheckbox).toBeChecked();
-
-    const uppercaseCheckbox = screen.getByLabelText(/uppercase/i);
-    expect(uppercaseCheckbox).toBeChecked();
+    const checkboxes = screen.getAllByRole("checkbox");
+    checkboxes.forEach((checkbox) => {
+      expect(checkbox).toBeChecked();
+    });
   });
 
   test("elements are focused in the right order", () => {
     render(<App />);
 
-    const digitsCheckbox = screen.getByLabelText(/digits/i);
-    const lowercaseCheckbox = screen.getByLabelText(/lowercase/i);
-    const symbolsCheckbox = screen.getByLabelText(/symbols/i);
-    const uppercaseCheckbox = screen.getByLabelText(/uppercase/i);
+    const checkboxes = screen.getAllByRole("checkbox");
     const generatePasswordButton = screen.getByRole("button", {
       name: "Generate",
     });
@@ -72,17 +62,10 @@ describe("App", () => {
     user.tab();
     expect(slider).toHaveFocus();
 
-    user.tab();
-    expect(uppercaseCheckbox).toHaveFocus();
-
-    user.tab();
-    expect(lowercaseCheckbox).toHaveFocus();
-
-    user.tab();
-    expect(digitsCheckbox).toHaveFocus();
-
-    user.tab();
-    expect(symbolsCheckbox).toHaveFocus();
+    checkboxes.forEach((checkbox) => {
+      user.tab();
+      expect(checkbox).toBeChecked();
+    });
 
     user.tab();
     expect(generatePasswordButton).toHaveFocus();
@@ -91,26 +74,34 @@ describe("App", () => {
   test("generate password button is disabled when no options are checked", () => {
     render(<App />);
 
-    const digitsCheckbox = screen.getByLabelText(/digits/i);
-    const lowercaseCheckbox = screen.getByLabelText(/lowercase/i);
-    const symbolsCheckbox = screen.getByLabelText(/symbols/i);
-    const uppercaseCheckbox = screen.getByLabelText(/uppercase/i);
+    const checkboxes = screen.getAllByRole("checkbox");
     const generatePasswordButton = screen.getByRole("button", {
       name: "Generate",
     });
 
-    user.click(uppercaseCheckbox);
-    expect(uppercaseCheckbox).not.toBeChecked();
-
-    user.click(lowercaseCheckbox);
-    expect(lowercaseCheckbox).not.toBeChecked();
-
-    user.click(digitsCheckbox);
-    expect(digitsCheckbox).not.toBeChecked();
-
-    user.click(symbolsCheckbox);
-    expect(symbolsCheckbox).not.toBeChecked();
+    checkboxes.forEach((checkbox) => {
+      user.click(checkbox);
+      expect(checkbox).not.toBeChecked();
+    });
 
     expect(generatePasswordButton).toBeDisabled();
+  });
+
+  test("displays generated password", async () => {
+    render(<App />);
+
+    const generatePasswordButton = screen.getByRole("button", {
+      name: "Generate",
+    });
+    const passwordInput = screen.getByPlaceholderText(/password.../i);
+
+    expect(passwordInput).toHaveValue("");
+    user.click(generatePasswordButton);
+    const defaultRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*-_=+<>,.])\\S{" +
+        defaultPasswordLength +
+        "}$"
+    );
+    expect(passwordInput).toHaveDisplayValue(defaultRegex);
   });
 });
