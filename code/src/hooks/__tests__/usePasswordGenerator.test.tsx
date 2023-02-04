@@ -281,4 +281,23 @@ describe("usePasswordGenerator", () => {
 
     expect(result.current.password).toMatch(allOptionsRegex);
   });
+
+  test("should generate two different passwords in a row", () => {
+    const { result } = renderHook(usePasswordGenerator);
+    const allOptionsRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*-_=+<>,.])\\S{" +
+        defaultPasswordLength +
+        "}$"
+    );
+
+    act(() => result.current.generatePassword());
+    const firstPw = result.current.password;
+    expect(firstPw).toMatch(allOptionsRegex);
+
+    act(() => result.current.generatePassword());
+    const secondPw = result.current.password;
+    expect(secondPw).toMatch(allOptionsRegex);
+
+    expect(firstPw).not.toEqual(secondPw);
+  });
 });
