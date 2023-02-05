@@ -7,12 +7,13 @@ import {
   Card,
   Checkbox,
   Collapse,
+  IconButton,
   Slider,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { Close, ContentCopy } from "@mui/icons-material";
 import {
   defaultPasswordLength,
   usePasswordGenerator,
@@ -35,8 +36,8 @@ export default function App() {
   const [includeLowercase, setIncludeLowercase] = useState<boolean>(true);
   const [includeSymbols, setIncludeSymbols] = useState<boolean>(true);
   const [includeUppercase, setIncludeUppercase] = useState<boolean>(true);
-  const [isCopied, setIsCopied] = useState<boolean>(false);
   const [length, setLength] = useState<number>(defaultPasswordLength);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const { password, generatePassword } = usePasswordGenerator({
     includeDigits,
@@ -48,6 +49,11 @@ export default function App() {
 
   const handleChangeLength = (event: Event, newLength: number | number[]) => {
     setLength(newLength as number);
+  };
+
+  const handleCopyPw = () => {
+    navigator.clipboard.writeText(password);
+    setShowAlert(true);
   };
 
   return (
@@ -90,16 +96,10 @@ export default function App() {
           <Button
             title="Copy"
             variant="contained"
-            disabled={isCopied || !password.length}
-            onClick={() => {
-              navigator.clipboard.writeText(password);
-              setIsCopied(true);
-              setTimeout(() => {
-                setIsCopied(false);
-              }, 2500);
-            }}
+            disabled={!password.length}
+            onClick={handleCopyPw}
           >
-            <ContentCopyIcon />
+            <ContentCopy />
           </Button>
         </Box>
 
@@ -174,8 +174,22 @@ export default function App() {
           Generate
         </Button>
       </Card>
-      <Collapse in={isCopied} sx={{ position: "absolute", top: 0 }}>
-        <Alert severity="success" sx={{ fontSize: "2rem", fontWeight: 500 }}>
+      <Collapse in={showAlert} sx={{ position: "absolute", top: 0 }}>
+        <Alert
+          severity="success"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              onClick={() => {
+                setShowAlert(false);
+              }}
+            >
+              <Close fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ fontSize: "2rem", fontWeight: 500 }}
+        >
           <AlertTitle sx={{ fontSize: "2.5rem" }}>Success!</AlertTitle>
           Password has been successfully copied!
         </Alert>
