@@ -4,143 +4,100 @@ import App from "../App";
 import { defaultPasswordLength } from "../../hooks/usePasswordGenerator";
 
 describe("App", () => {
-  test("renders correctly", () => {
+  beforeEach(() => {
     render(<App />);
+  });
 
-    const header = screen.getByRole("heading", { name: /password generator/i });
-    expect(header).toBeInTheDocument();
+  test("renders correctly", () => {
+    expect(getHeader()).toBeInTheDocument();
 
-    const passwordInput = screen.getByPlaceholderText(/password.../i);
-    expect(passwordInput).toBeInTheDocument();
+    expect(getPwInput()).toBeInTheDocument();
 
-    const copyButton = screen.getByTitle(/copy/i);
-    expect(copyButton).toBeInTheDocument();
+    expect(getCopyBtn()).toBeInTheDocument();
 
-    const slider = screen.getByRole("slider");
-    expect(slider).toBeInTheDocument();
+    expect(getSlider()).toBeInTheDocument();
 
-    const checkboxes = screen.getAllByRole("checkbox");
-    expect(checkboxes).toHaveLength(4);
+    expect(getCheckboxes()).toHaveLength(4);
 
-    const generatePasswordButton = screen.getByRole("button", {
-      name: /generate/i,
-    });
-    expect(generatePasswordButton).toBeInTheDocument();
+    expect(getGenerateBtn()).toBeInTheDocument();
   });
 
   test("renders correctly initial state", () => {
-    render(<App />);
+    expect(getPwInput()).toHaveValue("");
 
-    const passwordInput = screen.getByPlaceholderText(/password.../i);
-    expect(passwordInput).toHaveValue("");
+    expect(getCopyBtn()).toBeDisabled();
 
-    const copyButton = screen.getByTitle(/copy/i);
-    expect(copyButton).toBeDisabled();
+    expect(getSlider()).toHaveValue(`${defaultPasswordLength}`);
 
-    const slider = screen.getByRole("slider");
-    expect(slider).toHaveValue(`${defaultPasswordLength}`);
-
-    const checkboxes = screen.getAllByRole("checkbox");
-    checkboxes.forEach((checkbox) => {
+    getCheckboxes().forEach((checkbox) => {
       expect(checkbox).toBeChecked();
     });
   });
 
   test("elements are focused in the right order", async () => {
     const user = userEvent.setup();
-    render(<App />);
 
-    const checkboxes = screen.getAllByRole("checkbox");
-    const generatePasswordButton = screen.getByRole("button", {
-      name: /generate/i,
-    });
-    const passwordInput = screen.getByPlaceholderText(/password.../i);
-    const slider = screen.getByRole("slider");
+    const elements = [
+      getPwInput(),
+      getSlider(),
+      ...getCheckboxes(),
+      getGenerateBtn(),
+    ];
 
-    await user.tab();
-    expect(passwordInput).toHaveFocus();
-
-    await user.tab();
-    expect(slider).toHaveFocus();
-
-    checkboxes.forEach(async (checkbox) => {
+    elements.forEach(async (element) => {
       await user.tab();
       await waitFor(() => {
-        expect(checkbox).toHaveFocus();
+        expect(element).toHaveFocus();
       });
     });
-
-    await user.tab();
-    expect(generatePasswordButton).toHaveFocus();
   });
 
   test("toggling checkboxes and modifying slider value work properly", () => {
     const user = userEvent.setup();
-    render(<App />);
 
-    const checkboxes = screen.getAllByRole("checkbox");
-    const slider = screen.getByRole("slider");
     const newLength = 10;
 
-    checkboxes.forEach(async (checkbox) => {
+    getCheckboxes().forEach(async (checkbox) => {
       await user.click(checkbox);
       expect(checkbox).not.toBeChecked();
     });
-    fireEvent.change(slider, { target: { value: newLength } });
-    expect(slider).toHaveValue(newLength.toString());
+    fireEvent.change(getSlider(), { target: { value: newLength } });
+    expect(getSlider()).toHaveValue(newLength.toString());
   });
 
   test("generate password button is disabled when no options are checked", async () => {
     const user = userEvent.setup();
-    render(<App />);
 
-    const checkboxes = screen.getAllByRole("checkbox");
-    const generatePasswordButton = screen.getByRole("button", {
-      name: /generate/i,
-    });
-    expect(generatePasswordButton).not.toBeDisabled();
+    expect(getGenerateBtn()).not.toBeDisabled();
 
-    checkboxes.forEach(async (checkbox) => {
+    getCheckboxes().forEach(async (checkbox) => {
       await user.click(checkbox);
       expect(checkbox).not.toBeChecked();
     });
 
     await waitFor(() => {
-      expect(generatePasswordButton).toBeDisabled();
+      expect(getGenerateBtn()).toBeDisabled();
     });
   });
 
   test("displays generated password", async () => {
     const user = userEvent.setup();
-    render(<App />);
-
-    const generatePasswordButton = screen.getByRole("button", {
-      name: /generate/i,
-    });
-    const passwordInput = screen.getByPlaceholderText(/password.../i);
-    expect(passwordInput).toHaveValue("");
-
     const defaultRegex = new RegExp(
       "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*-_=+<>,.])\\S{" +
         defaultPasswordLength +
         "}$"
     );
-    await user.click(generatePasswordButton);
-    expect(passwordInput).toHaveDisplayValue(defaultRegex);
+
+    await user.click(getGenerateBtn());
+    expect(getPwInput()).toHaveDisplayValue(defaultRegex);
   });
 
   test("copies generated password to clipboard when copy button is clicked", async () => {
     const user = userEvent.setup();
-    render(<App />);
     jest.spyOn(navigator.clipboard, "writeText");
 
-    const copyButton = screen.getByTitle(/copy/i);
-    const generatePasswordButton = screen.getByRole("button", {
-      name: /generate/i,
-    });
-
-    await user.click(generatePasswordButton);
-    await user.click(copyButton);
+    await user.click(getGenerateBtn());
+    await user.click(getCopyBtn());
     await waitFor(() => {
       expect(navigator.clipboard.writeText).toHaveBeenCalled();
     });
@@ -148,15 +105,9 @@ describe("App", () => {
 
   test("MUI Alert is rendered after the user copies the password", async () => {
     const user = userEvent.setup();
-    render(<App />);
 
-    const copyButton = screen.getByTitle(/copy/i);
-    const generatePasswordButton = screen.getByRole("button", {
-      name: /generate/i,
-    });
-
-    await user.click(generatePasswordButton);
-    await user.click(copyButton);
+    await user.click(getGenerateBtn());
+    await user.click(getCopyBtn());
 
     const alert = await screen.findByText(/success!/i);
     await waitFor(() => {
@@ -164,3 +115,11 @@ describe("App", () => {
     });
   });
 });
+
+const getCheckboxes = () => screen.getAllByRole("checkbox");
+const getCopyBtn = () => screen.getByTitle(/copy/i);
+const getGenerateBtn = () => screen.getByRole("button", { name: /generate/i });
+const getHeader = () =>
+  screen.getByRole("heading", { name: /password generator/i });
+const getPwInput = () => screen.getByPlaceholderText(/password.../i);
+const getSlider = () => screen.getByRole("slider");
