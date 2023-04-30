@@ -1,16 +1,8 @@
 export const defaultPasswordLength = 14;
 
-interface Props {
-  includeDigits?: boolean;
-  includeLowercase?: boolean;
-  includeSymbols?: boolean;
-  includeUppercase?: boolean;
-  length?: number;
-}
-
 const shufflePassword = (password: string) => {
   const passwordArray = password.split("");
-  let randomIndex,
+  let randomIndex: number,
     currentIndex = password.length;
 
   while (currentIndex) {
@@ -26,13 +18,13 @@ const shufflePassword = (password: string) => {
   return passwordArray.join("");
 };
 
-export const generatePassword = ({
+export const generatePassword = (
   includeDigits = true,
   includeLowercase = true,
   includeSymbols = true,
   includeUppercase = true,
-  length = defaultPasswordLength,
-}: Props = {}) => {
+  length = defaultPasswordLength
+) => {
   const digits = "0123456789";
   const lowercaseLetters = "qwertyuiopasdfghjklzxcvbnm";
   const symbols = "!@#$%^&*-_=+<>,.";
@@ -49,8 +41,8 @@ export const generatePassword = ({
       return "";
     }
 
-    let characterList: string = "";
-    let pwd: string = "";
+    let characterList = "",
+      pwd = "";
 
     if (includeLowercase) {
       characterList += lowercaseLetters;
