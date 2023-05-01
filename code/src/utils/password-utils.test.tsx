@@ -1,3 +1,5 @@
+import { shufflePassword } from "./password-utils";
+
 describe("shufflePassword", () => {
   it("should return a shuffled string", () => {
     const password = "password";
@@ -16,4 +18,8 @@ describe("shufflePassword", () => {
 
     expect(shuffledPassword).toBe(password);
   });
+});
+
+describe("generatePassword", () => {
+  it("should", () => {});
 });

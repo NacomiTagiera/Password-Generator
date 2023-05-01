@@ -1,6 +1,6 @@
 export const defaultPasswordLength = 14;
 
-const shufflePassword = (password: string) => {
+export const shufflePassword = (password: string) => {
   const passwordArray = password.split("");
   let randomIndex: number,
     currentIndex = password.length;
