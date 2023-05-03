@@ -1,4 +1,4 @@
-import { shufflePassword } from "./password-utils";
+import { generatePassword, shufflePassword } from "./password-utils";
 
 describe("shufflePassword", () => {
   it("should return a shuffled string", () => {
@@ -21,5 +21,5 @@ describe("shufflePassword", () => {
 });
 
 describe("generatePassword", () => {
-  it("should", () => {});
+  it("should generate a password of the given length", () => {});
 });
