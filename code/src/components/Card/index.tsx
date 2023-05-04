@@ -8,13 +8,12 @@ interface Props {
 export default function Card({ children }: Props) {
   return (
     <Paper
+      component="main"
+      elevation={8}
       sx={{
         border: 2.5,
         borderRadius: 2,
-        boxShadow: 14,
-        marginInline: "auto",
-        padding: "3rem",
-        width: "40rem",
+        width: "min(40rem, 95vw)",
       }}
     >
       {children}

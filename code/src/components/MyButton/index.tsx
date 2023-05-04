@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 
 interface Props {
   icon: ReactNode;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function MyButton({ icon, label, text, onClick }: Props) {
-  return (
+  return text ? (
     <Button
       variant="contained"
       startIcon={icon}
@@ -18,5 +18,9 @@ export default function MyButton({ icon, label, text, onClick }: Props) {
     >
       {text}
     </Button>
+  ) : (
+    <IconButton aria-label={label} size="large" onClick={onClick}>
+      {icon}
+    </IconButton>
   );
 }

@@ -1,8 +1,6 @@
 import { Box, Grid, Input, Slider, Typography } from "@mui/material";
 
 interface Props {
-  maxLength?: number;
-  minLength?: number;
   value: number;
   onBlur: () => void;
   onInputChange: () => void;
@@ -10,8 +8,6 @@ interface Props {
 }
 
 export default function LengthSlider({
-  maxLength = 30,
-  minLength = 5,
   value,
   onInputChange,
   onSliderChange,
@@ -37,9 +33,8 @@ export default function LengthSlider({
             onChange={onInputChange}
             onBlur={onBlur}
             inputProps={{
-              step: 1,
-              min: minLength,
-              max: maxLength,
+              min: 6,
+              max: 32,
               type: "number",
               "aria-labelledby": "input-slider",
             }}

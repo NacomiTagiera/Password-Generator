@@ -19,7 +19,7 @@ export const shufflePassword = (password: string) => {
 };
 
 export const generatePassword = (
-  includeDigits = true,
+  includeNumbers = true,
   includeLowercase = true,
   includeSymbols = true,
   includeUppercase = true,
@@ -32,7 +32,7 @@ export const generatePassword = (
 
   const createPassword = () => {
     if (
-      (!includeDigits &&
+      (includeNumbers &&
         !includeLowercase &&
         !includeSymbols &&
         !includeUppercase) ||
@@ -56,7 +56,7 @@ export const generatePassword = (
         Math.floor(Math.random() * uppercaseLetters.length)
       );
     }
-    if (includeDigits) {
+    if (includeNumbers) {
       characterList += digits;
       pwd += digits.charAt(Math.floor(Math.random() * digits.length));
     }
