@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import LengthSlider from "./";
 
@@ -8,7 +8,7 @@ describe("LengthSlider", () => {
   const onBlur = jest.fn();
   const value = 10;
 
-  it("renders the component with default props", () => {
+  it("renders the component correctly", () => {
     render(
       <LengthSlider
         value={value}
@@ -19,8 +19,8 @@ describe("LengthSlider", () => {
     );
 
     expect(screen.getByText("Password length")).toBeInTheDocument();
-    expect(screen.getByRole("slider")).toBeInTheDocument();
-    expect(screen.getByRole("spinbutton")).toBeInTheDocument();
+    expect(getSlider()).toBeInTheDocument();
+    expect(getInput()).toBeInTheDocument();
     expect(screen.getByDisplayValue(value.toString())).toBeInTheDocument();
   });
 
@@ -34,9 +34,7 @@ describe("LengthSlider", () => {
       />
     );
 
-    const slider = screen.getByRole("slider");
-    userEvent.click(slider, { clientX: 100 });
-
+    fireEvent.change(getSlider(), { target: { value: 20 } });
     expect(onSliderChange).toHaveBeenCalled();
   });
 
@@ -50,9 +48,7 @@ describe("LengthSlider", () => {
       />
     );
 
-    const input = screen.getByRole("spinbutton");
-    userEvent.type(input, "15");
-
+    userEvent.type(getInput(), "15");
     expect(onInputChange).toHaveBeenCalled();
   });
 
@@ -66,9 +62,10 @@ describe("LengthSlider", () => {
       />
     );
 
-    const input = screen.getByRole("spinbutton");
-    userEvent.tab(input);
-
+    userEvent.tab();
     expect(onBlur).toHaveBeenCalled();
   });
 });
+
+const getSlider = () => screen.getByRole("slider");
+const getInput = () => screen.getByRole("input");
