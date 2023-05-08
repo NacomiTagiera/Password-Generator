@@ -28,6 +28,7 @@ export default function LengthSlider({
         </Grid>
         <Grid item>
           <Input
+            role="input"
             value={value}
             size="small"
             onChange={onInputChange}
