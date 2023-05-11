@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import LengthSlider from "./";
+import LengthSlider from ".";
 
 describe("LengthSlider", () => {
   const onSliderChange = jest.fn();

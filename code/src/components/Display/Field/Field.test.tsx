@@ -1,11 +1,11 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import PasswordDisplay from "./";
+import Field from ".";
 
 describe("PasswordDisplay", () => {
   const passwordValue = "1234567890";
 
   beforeEach(() => {
-    render(<PasswordDisplay password={passwordValue} />);
+    render(<Field password={passwordValue} />);
   });
 
   it("renders with the provided password value", () => {

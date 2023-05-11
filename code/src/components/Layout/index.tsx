@@ -1,11 +1,13 @@
 import { ReactNode } from "react";
 import { Paper } from "@mui/material";
+import Header from "./Header";
+import Footer from "./Footer";
 
 interface Props {
   children: ReactNode;
 }
 
-export default function Card({ children }: Props) {
+export default function Layout({ children }: Props) {
   return (
     <Paper
       component="main"
@@ -16,7 +18,9 @@ export default function Card({ children }: Props) {
         width: "min(40rem, 95vw)",
       }}
     >
+      <Header />
       {children}
+      <Footer />
     </Paper>
   );
 }
