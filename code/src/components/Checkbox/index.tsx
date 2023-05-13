@@ -19,6 +19,7 @@ export default function CheckBox({ checked, label, onClick }: Props) {
       }
       label={label}
       onClick={onClick}
+      sx={{ fontSize: "2rem" }}
     />
   );
 }

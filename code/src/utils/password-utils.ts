@@ -19,11 +19,11 @@ export const shufflePassword = (password: string) => {
 };
 
 export const generatePassword = (
-  includeNumbers = true,
-  includeLowercase = true,
-  includeSymbols = true,
-  includeUppercase = true,
-  length = defaultPasswordLength
+  includeNumbers: boolean,
+  includeLowercase: boolean,
+  includeSymbols: boolean,
+  includeUppercase: boolean,
+  length: number
 ) => {
   const digits = "0123456789";
   const lowercaseLetters = "qwertyuiopasdfghjklzxcvbnm";
@@ -32,7 +32,7 @@ export const generatePassword = (
 
   const createPassword = () => {
     if (
-      (includeNumbers &&
+      (!includeNumbers &&
         !includeLowercase &&
         !includeSymbols &&
         !includeUppercase) ||
