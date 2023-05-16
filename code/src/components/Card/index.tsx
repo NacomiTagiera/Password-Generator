@@ -12,9 +12,9 @@ export default function Card({ children }: Props) {
       elevation={8}
       sx={{
         border: 2.5,
-        borderRadius: "1.5rem",
-        padding: "3rem",
-        width: "40rem",
+        borderRadius: 3,
+        padding: { xs: "0.8rem", lg: "1.4rem" },
+        textAlign: "center",
       }}
     >
       {children}

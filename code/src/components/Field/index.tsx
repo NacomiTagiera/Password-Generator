@@ -10,10 +10,10 @@ export default function Field({ password }: Props) {
       fullWidth
       value={password}
       variant="standard"
+      placeholder="Your Password"
       InputProps={{
         "aria-readonly": "true",
         readOnly: true,
-        style: { fontSize: "1.5rem", fontWeight: 500 },
       }}
     />
   );

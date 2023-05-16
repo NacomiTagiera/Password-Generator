@@ -12,14 +12,13 @@ export default function CheckBox({ checked, label, onClick }: Props) {
       control={
         <Checkbox
           checked={checked}
+          onClick={onClick}
           inputProps={{
             "aria-label": `Checkbox for ${label}`,
           }}
         />
       }
       label={label}
-      onClick={onClick}
-      sx={{ fontSize: "2rem" }}
     />
   );
 }

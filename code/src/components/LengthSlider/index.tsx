@@ -3,8 +3,8 @@ import { Box, Grid, Input, Slider, Typography } from "@mui/material";
 interface Props {
   value: number;
   onBlur: () => void;
-  onInputChange: () => void;
-  onSliderChange: () => void;
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSliderChange: (event: Event, newValue: number | number[]) => void;
 }
 
 export default function LengthSlider({
@@ -14,13 +14,15 @@ export default function LengthSlider({
   onBlur,
 }: Props) {
   return (
-    <Box sx={{ width: 250 }}>
-      <Typography id="input-slider" gutterBottom>
+    <Box maxWidth="95%" pt={1}>
+      <Typography id="input-slider" gutterBottom textAlign="center">
         Password length
       </Typography>
       <Grid container spacing={2} alignItems="center">
         <Grid item xs>
           <Slider
+            min={6}
+            max={32}
             value={typeof value === "number" ? value : 0}
             onChange={onSliderChange}
             aria-labelledby="input-slider"

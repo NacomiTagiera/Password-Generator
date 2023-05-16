@@ -1,12 +1,7 @@
-html {
-  font-size: 62.5%;
-  box-sizing: border-box;
-}
-
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+  box-sizing: border-box;
 }
 
 body {
@@ -26,10 +21,4 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-@media (max-width: 575px) {
-  html {
-    font-size: 50%;
-  }
 }

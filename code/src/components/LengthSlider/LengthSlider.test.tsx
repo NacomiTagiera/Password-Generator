@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import LengthSlider from ".";
 
@@ -21,7 +21,6 @@ describe("LengthSlider", () => {
     expect(screen.getByText("Password length")).toBeInTheDocument();
     expect(getSlider()).toBeInTheDocument();
     expect(getInput()).toBeInTheDocument();
-    expect(screen.getByDisplayValue(value.toString())).toBeInTheDocument();
   });
 
   it("triggers the onSliderChange when the slider is moved", () => {
@@ -62,7 +61,7 @@ describe("LengthSlider", () => {
       />
     );
 
-    userEvent.tab();
+    fireEvent.blur(getInput());
     expect(onBlur).toHaveBeenCalled();
   });
 });

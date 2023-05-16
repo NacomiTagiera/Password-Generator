@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useState } from "react";
-import { Box, FormGroup, Stack } from "@mui/material";
+import { Fragment, useState } from "react";
+import { FormGroup, Stack } from "@mui/material";
 
 import Card from "./Card";
 import CheckBox from "./Checkbox";
@@ -31,19 +31,33 @@ export default function PasswordGenerator() {
     setTimeout(() => setShowAlert(false), 3000);
   };
 
+  const handleBlur = () => {
+    if (passwordLength < 6) {
+      setPasswordLength(6);
+    } else if (passwordLength > 32) {
+      setPasswordLength(32);
+    }
+  };
+
   return (
     <Fragment>
       <Card>
         <Header />
         <Stack direction="row" spacing={1} alignItems="center">
           <Field password={password} />
-          <CopyButton onClick={handleCopyPw} />
+          <CopyButton disabled={!password} onClick={handleCopyPw} />
         </Stack>
         <LengthSlider
           value={passwordLength}
-          onBlur={() => {}}
-          onInputChange={() => {}}
-          onSliderChange={() => {}}
+          onBlur={handleBlur}
+          onInputChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setPasswordLength(
+              event.target.value === "" ? 0 : Number(event.target.value)
+            );
+          }}
+          onSliderChange={(event: Event, newValue: number | number[]) => {
+            setPasswordLength(newValue as number);
+          }}
         />
         <FormGroup>
           <CheckBox
@@ -68,6 +82,12 @@ export default function PasswordGenerator() {
           />
         </FormGroup>
         <GenerateButton
+          disabled={
+            !includeLowerCase &&
+            !includeUpperCase &&
+            !includeNumbers &&
+            !includeSymbols
+          }
           onClick={() =>
             setPassword(
               generatePassword(
