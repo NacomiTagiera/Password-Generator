@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import Notification from ".";
 
 describe("Notification", () => {
-  const text = "Password has been copied to clipboard";
+  const text = "Password has been copied";
 
   it("renders with correct message when open is true", () => {
     render(<Notification open={true} onClose={() => {}} />);

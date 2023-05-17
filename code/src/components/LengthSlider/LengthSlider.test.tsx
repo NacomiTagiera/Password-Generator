@@ -1,5 +1,4 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import LengthSlider from ".";
 
 describe("LengthSlider", () => {
@@ -8,7 +7,7 @@ describe("LengthSlider", () => {
   const onBlur = jest.fn();
   const value = 10;
 
-  it("renders the component correctly", () => {
+  it("renders correctly", () => {
     render(
       <LengthSlider
         value={value}
@@ -47,7 +46,7 @@ describe("LengthSlider", () => {
       />
     );
 
-    userEvent.type(getInput(), "15");
+    fireEvent.change(getInput(), { target: { value: 20 } });
     expect(onInputChange).toHaveBeenCalled();
   });
 
@@ -67,4 +66,4 @@ describe("LengthSlider", () => {
 });
 
 const getSlider = () => screen.getByRole("slider");
-const getInput = () => screen.getByRole("input");
+const getInput = () => screen.getByRole("spinbutton");

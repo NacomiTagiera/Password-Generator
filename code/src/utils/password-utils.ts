@@ -18,60 +18,57 @@ export const shufflePassword = (password: string) => {
   return passwordArray.join("");
 };
 
+export const getRandomCharacter = (characters: string) => {
+  const randomIndex = Math.floor(Math.random() * characters.length);
+  return characters.charAt(randomIndex);
+};
+
 export const generatePassword = (
-  includeNumbers: boolean,
   includeLowercase: boolean,
+  includeNumbers: boolean,
   includeSymbols: boolean,
   includeUppercase: boolean,
-  length: number
+  length = defaultPasswordLength
 ) => {
   const digits = "0123456789";
   const lowercaseLetters = "qwertyuiopasdfghjklzxcvbnm";
   const symbols = "!@#$%^&*-_=+<>,.";
   const uppercaseLetters = "QWERTYUIOPASDFGHJKLZXCVBNM";
 
-  const createPassword = () => {
-    if (
-      (!includeNumbers &&
-        !includeLowercase &&
-        !includeSymbols &&
-        !includeUppercase) ||
-      length <= 0
-    ) {
-      return "";
-    }
+  if (
+    (!includeNumbers &&
+      !includeLowercase &&
+      !includeSymbols &&
+      !includeUppercase) ||
+    length <= 0
+  ) {
+    return "";
+  }
 
-    let characterList = "",
-      pwd = "";
+  let characterList = "";
+  let pwd = "";
 
-    if (includeLowercase) {
-      characterList += lowercaseLetters;
-      pwd += lowercaseLetters.charAt(
-        Math.floor(Math.random() * lowercaseLetters.length)
-      );
-    }
-    if (includeUppercase) {
-      characterList += uppercaseLetters;
-      pwd += uppercaseLetters.charAt(
-        Math.floor(Math.random() * uppercaseLetters.length)
-      );
-    }
-    if (includeNumbers) {
-      characterList += digits;
-      pwd += digits.charAt(Math.floor(Math.random() * digits.length));
-    }
-    if (includeSymbols) {
-      characterList += symbols;
-      pwd += symbols.charAt(Math.floor(Math.random() * symbols.length));
-    }
+  if (includeLowercase) {
+    characterList += lowercaseLetters;
+    pwd += getRandomCharacter(lowercaseLetters);
+  }
+  if (includeUppercase) {
+    characterList += uppercaseLetters;
+    pwd += getRandomCharacter(uppercaseLetters);
+  }
+  if (includeNumbers) {
+    characterList += digits;
+    pwd += getRandomCharacter(digits);
+  }
+  if (includeSymbols) {
+    characterList += symbols;
+    pwd += getRandomCharacter(symbols);
+  }
 
-    while (pwd.length < length) {
-      const charIndex = Math.floor(Math.random() * characterList.length);
-      pwd += characterList.charAt(charIndex);
-    }
+  while (pwd.length < length) {
+    const charIndex = Math.floor(Math.random() * characterList.length);
+    pwd += characterList.charAt(charIndex);
+  }
 
-    return shufflePassword(pwd);
-  };
-
-  return createPassword();
+  return shufflePassword(pwd);
 };

@@ -21,7 +21,7 @@ export default function PasswordGenerator() {
   const [includeSymbols, setIncludeSymbols] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
-  const [passwordLength, setPasswordLength] = useState<number>(
+  const [passwordLength, setPasswordLength] = useState<number | "">(
     defaultPasswordLength
   );
 
@@ -32,7 +32,7 @@ export default function PasswordGenerator() {
   };
 
   const handleBlur = () => {
-    if (passwordLength < 6) {
+    if (passwordLength === "" || passwordLength < 6) {
       setPasswordLength(6);
     } else if (passwordLength > 32) {
       setPasswordLength(32);
@@ -52,7 +52,7 @@ export default function PasswordGenerator() {
           onBlur={handleBlur}
           onInputChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setPasswordLength(
-              event.target.value === "" ? 0 : Number(event.target.value)
+              event.target.value === "" ? "" : Number(event.target.value)
             );
           }}
           onSliderChange={(event: Event, newValue: number | number[]) => {
@@ -91,11 +91,11 @@ export default function PasswordGenerator() {
           onClick={() =>
             setPassword(
               generatePassword(
-                includeNumbers,
                 includeLowerCase,
+                includeNumbers,
                 includeSymbols,
                 includeUpperCase,
-                passwordLength
+                Number(passwordLength)
               )
             )
           }

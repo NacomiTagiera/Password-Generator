@@ -14,7 +14,7 @@ function Transition(props: TransitionProps) {
 export default function Notification({ open, onClose }: Props) {
   return (
     <Snackbar open={open} onClose={onClose} TransitionComponent={Transition}>
-      <Alert onClose={onClose}>Password has been copied to clipboard</Alert>
+      <Alert onClose={onClose}>Password has been copied</Alert>
     </Snackbar>
   );
 }
