@@ -45,7 +45,10 @@ export default function PasswordGenerator() {
         <Header />
         <Stack direction="row" spacing={1} alignItems="center">
           <Field password={password} />
-          <CopyButton disabled={!password} onClick={handleCopyPw} />
+          <CopyButton
+            disabled={!password || showAlert}
+            onClick={handleCopyPw}
+          />
         </Stack>
         <LengthSlider
           value={passwordLength}

@@ -11,10 +11,11 @@ export default function CheckBox({ checked, label, onClick }: Props) {
     <FormControlLabel
       control={
         <Checkbox
+          name={label}
           checked={checked}
           onClick={onClick}
           inputProps={{
-            "aria-label": `Checkbox for ${label}`,
+            "aria-label": label,
           }}
         />
       }
