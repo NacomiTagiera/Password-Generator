@@ -7,6 +7,7 @@ interface Props {
 export default function Field({ password }: Props) {
   return (
     <TextField
+      id='password'
       fullWidth
       value={password}
       variant='standard'

@@ -1,6 +1,7 @@
 'use client';
 
 import { Fragment, useState } from 'react';
+import { ContentCopy } from '@mui/icons-material';
 import { FormGroup, Stack } from '@mui/material';
 
 import {
@@ -8,11 +9,10 @@ import {
   generatePassword,
 } from '@/utils/password-utils';
 
+import Button from './Button';
 import Card from './Card';
 import CheckBox from './Checkbox';
-import CopyButton from './CopyButton';
 import Field from './Field';
-import GenerateButton from './GenerateButton';
 import Header from './Header';
 import LengthSlider from './LengthSlider';
 import Notification from './Notification';
@@ -48,7 +48,9 @@ export default function PasswordGenerator() {
         <Header />
         <Stack direction='row' spacing={1} alignItems='center'>
           <Field password={password} />
-          <CopyButton
+          <Button
+            variant='icon'
+            icon={<ContentCopy fontSize='inherit' />}
             disabled={!password || showAlert}
             onClick={handleCopyPw}
           />
@@ -87,7 +89,9 @@ export default function PasswordGenerator() {
             onClick={() => setIncludeSymbols((prevState) => !prevState)}
           />
         </FormGroup>
-        <GenerateButton
+        <Button
+          variant='text'
+          label='Generate'
           disabled={
             !includeLowerCase &&
             !includeUpperCase &&

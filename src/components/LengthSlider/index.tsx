@@ -30,6 +30,7 @@ export default function LengthSlider({
         </Grid>
         <Grid item xs={4}>
           <TextField
+            id='password-length'
             value={value}
             size='small'
             onChange={onInputChange}
