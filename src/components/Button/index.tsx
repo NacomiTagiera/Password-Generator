@@ -4,7 +4,7 @@ type ButtonVariant = 'text' | 'icon';
 
 type Props = {
   variant: ButtonVariant;
-  disabled: boolean;
+  disabled?: boolean;
   icon?: React.ReactNode;
   label?: string;
   onClick: () => void;
@@ -15,9 +15,9 @@ type Props = {
 
 export default function Button({
   variant,
-  disabled,
+  disabled = false,
   icon,
-  label,
+  label = 'Copy Password',
   onClick,
 }: Props) {
   return variant === 'icon' ? (
