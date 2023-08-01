@@ -23,9 +23,9 @@ describe('CheckBox', () => {
     const label = 'Test label';
     render(<CheckBox checked={false} label={label} onClick={() => {}} />);
     const checkBox = screen.getByLabelText(label) as HTMLInputElement;
-    expect(checkBox.checked).toBe(false);
+    expect(checkBox).not.toBeChecked();
 
     render(<CheckBox checked={true} label={label} onClick={() => {}} />);
-    expect(checkBox.checked).toBe(false);
+    expect(checkBox).not.toBeChecked();
   });
 });

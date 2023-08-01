@@ -21,7 +21,7 @@ describe('Button', () => {
     expect(textButton).toBeEnabled();
   });
 
-  it('alls onClick handler when button is clicked', () => {
+  it('calls onClick handler when button is clicked', () => {
     const handleClick = jest.fn();
     const label = 'Button';
 

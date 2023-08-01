@@ -1,3 +1,5 @@
+'use client';
+
 import { Checkbox, FormControlLabel } from '@mui/material';
 
 interface Props {

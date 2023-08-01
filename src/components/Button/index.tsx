@@ -1,3 +1,5 @@
+'use client';
+
 import { Button as MuiButton, IconButton } from '@mui/material';
 
 type ButtonVariant = 'text' | 'icon';
@@ -17,12 +19,12 @@ export default function Button({
   variant,
   disabled = false,
   icon,
-  label = 'Copy Password',
+  label,
   onClick,
 }: Props) {
   return variant === 'icon' ? (
     <IconButton
-      aria-label={label}
+      aria-label={label ?? 'Copy Password'}
       disabled={disabled}
       color='primary'
       size='large'
