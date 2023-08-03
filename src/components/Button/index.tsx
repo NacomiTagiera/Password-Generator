@@ -1,5 +1,6 @@
 'use client';
 
+import { ReactNode } from 'react';
 import { Button as MuiButton, IconButton } from '@mui/material';
 
 type ButtonVariant = 'text' | 'icon';
@@ -7,13 +8,10 @@ type ButtonVariant = 'text' | 'icon';
 type Props = {
   variant: ButtonVariant;
   disabled?: boolean;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   label?: string;
   onClick: () => void;
-} & (
-  | { variant: 'text'; label: string }
-  | { variant: 'icon'; icon: React.ReactNode }
-);
+} & ({ variant: 'text'; label: string } | { variant: 'icon'; icon: ReactNode });
 
 export default function Button({
   variant,

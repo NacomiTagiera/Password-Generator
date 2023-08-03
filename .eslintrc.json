@@ -2,11 +2,12 @@
   "parserOptions": {
     "sourceType": "module"
   },
-  "env": { "es6": true, "jest/globals": true },
-  "plugins": ["import", "simple-import-sort"],
+  "env": { "es6": true, "cypress/globals": true, "jest": true },
+  "plugins": ["cypress", "import", "simple-import-sort"],
   "extends": [
     "eslint:recommended",
     "next/core-web-vitals",
+    "plugin:cypress/recommended",
     "plugin:import/typescript",
     "plugin:jest-dom/recommended",
     "plugin:testing-library/react",

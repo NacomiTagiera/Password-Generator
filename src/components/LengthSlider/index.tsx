@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 'use client';
 
+import React from 'react';
 import { Box, Grid, Slider, TextField, Typography } from '@mui/material';
 
 interface Props {
