@@ -1,9 +1,8 @@
-import { ReactNode } from 'react';
 import { Paper } from '@mui/material';
 
-interface Props {
-  children: ReactNode;
-}
+type Props = {
+  children: React.ReactNode;
+};
 
 export default function Card({ children }: Props) {
   return (

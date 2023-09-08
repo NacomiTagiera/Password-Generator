@@ -11,9 +11,7 @@ describe('CheckBox', () => {
 
   it('calls the onClick function when clicked', () => {
     const onClickMock = jest.fn();
-    render(
-      <CheckBox checked={false} label='Test label' onClick={onClickMock} />
-    );
+    render(<CheckBox checked={false} label='Test label' onClick={onClickMock} />);
     const checkBox = screen.getByRole('checkbox');
     fireEvent.click(checkBox);
     expect(onClickMock).toHaveBeenCalled();
@@ -22,7 +20,7 @@ describe('CheckBox', () => {
   it('displays the correct checked state', () => {
     const label = 'Test label';
     render(<CheckBox checked={false} label={label} onClick={() => {}} />);
-    const checkBox = screen.getByLabelText(label) as HTMLInputElement;
+    const checkBox = screen.getByLabelText(label);
     expect(checkBox).not.toBeChecked();
 
     render(<CheckBox checked={true} label={label} onClick={() => {}} />);

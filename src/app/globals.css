@@ -8,13 +8,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(
-    to right top,
-    #051937,
-    #004d7a,
-    #008793,
-    #00bf72
-  );
+  background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72);
   height: 100dvh;
   line-height: 1.1;
   margin: 0;

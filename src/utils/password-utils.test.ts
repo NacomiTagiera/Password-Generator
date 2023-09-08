@@ -1,5 +1,5 @@
 import {
-  defaultPasswordLength,
+  DEFAULT_PW_LENGTH,
   generatePassword,
   getRandomCharacter,
   shufflePassword,
@@ -10,9 +10,7 @@ describe('shufflePassword', () => {
     const password = 'password';
     const shuffledPassword = shufflePassword(password);
     expect(shuffledPassword).not.toBe(password);
-    expect(shuffledPassword.split('').sort().join('')).toBe(
-      password.split('').sort().join('')
-    );
+    expect(shuffledPassword.split('').sort().join('')).toBe(password.split('').sort().join(''));
   });
 
   it('returns an empty string for an empty password', () => {
@@ -41,26 +39,18 @@ describe('generatePassword', () => {
     const password = generatePassword(false, false, false, false, 0);
     expect(password).toBe('');
 
-    const passwordWithNoOptions = generatePassword(
-      false,
-      false,
-      false,
-      false,
-      10
-    );
+    const passwordWithNoOptions = generatePassword(false, false, false, false, 10);
     expect(passwordWithNoOptions).toBe('');
   });
 
   it('generates a password with default length when no length is specified', () => {
     const password = generatePassword(true, true, true, true);
-    expect(password.length).toBe(defaultPasswordLength);
+    expect(password.length).toBe(DEFAULT_PW_LENGTH);
   });
 
   it('generates a password with the specified length and selected options', () => {
     const password = generatePassword(true, false, true, false, 10); //includes lowercase letters and special characters
     expect(password.length).toBe(10);
-    expect(password).toMatch(
-      /^(?=.*[!@#$%^&*-_=+<>])(?=.*[a-z])[!@#$%^&*-_=+<>a-z]+$/
-    );
+    expect(password).toMatch(/^(?=.*[!@#$%^&*-_=+<>])(?=.*[a-z])[!@#$%^&*-_=+<>a-z]+$/);
   });
 });

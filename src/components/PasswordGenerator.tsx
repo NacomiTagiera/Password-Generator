@@ -1,12 +1,14 @@
 'use client';
 
-import React, { Fragment, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { ContentCopy } from '@mui/icons-material';
 import { FormGroup, Stack } from '@mui/material';
 
 import {
-  defaultPasswordLength,
+  DEFAULT_PW_LENGTH,
   generatePassword,
+  PW_MAX_LENGTH,
+  PW_MIN_LENGTH,
 } from '@/utils/password-utils';
 
 import Button from './Button';
@@ -18,27 +20,25 @@ import LengthSlider from './LengthSlider';
 import Notification from './Notification';
 
 export default function PasswordGenerator() {
-  const [includeLowerCase, setIncludeLowerCase] = useState<boolean>(true);
-  const [includeUpperCase, setIncludeUpperCase] = useState<boolean>(true);
-  const [includeNumbers, setIncludeNumbers] = useState<boolean>(true);
-  const [includeSymbols, setIncludeSymbols] = useState<boolean>(true);
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [password, setPassword] = useState<string>('');
-  const [passwordLength, setPasswordLength] = useState<number | ''>(
-    defaultPasswordLength
-  );
+  const [includeLowerCase, setIncludeLowerCase] = useState(true);
+  const [includeUpperCase, setIncludeUpperCase] = useState(true);
+  const [includeNumbers, setIncludeNumbers] = useState(true);
+  const [includeSymbols, setIncludeSymbols] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordLength, setPasswordLength] = useState<number | ''>(DEFAULT_PW_LENGTH);
 
   const handleCopyPw = () => {
-    navigator.clipboard.writeText(password);
+    void navigator.clipboard.writeText(password);
     setShowAlert(true);
     setTimeout(() => setShowAlert(false), 3000);
   };
 
   const handleBlur = () => {
-    if (passwordLength === '' || passwordLength < 6) {
-      setPasswordLength(6);
-    } else if (passwordLength > 32) {
-      setPasswordLength(32);
+    if (passwordLength === '' || passwordLength < PW_MIN_LENGTH) {
+      setPasswordLength(PW_MIN_LENGTH);
+    } else if (passwordLength > PW_MAX_LENGTH) {
+      setPasswordLength(PW_MAX_LENGTH);
     }
   };
 
@@ -59,11 +59,9 @@ export default function PasswordGenerator() {
           value={passwordLength}
           onBlur={handleBlur}
           onInputChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setPasswordLength(
-              event.target.value === '' ? '' : Number(event.target.value)
-            );
+            setPasswordLength(event.target.value === '' ? '' : Number(event.target.value));
           }}
-          onSliderChange={(event: Event, newValue: number | number[]) => {
+          onSliderChange={(_event: Event, newValue: number | number[]) => {
             setPasswordLength(newValue as number);
           }}
         />
@@ -92,12 +90,7 @@ export default function PasswordGenerator() {
         <Button
           variant='text'
           label='Generate'
-          disabled={
-            !includeLowerCase &&
-            !includeUpperCase &&
-            !includeNumbers &&
-            !includeSymbols
-          }
+          disabled={!includeLowerCase && !includeUpperCase && !includeNumbers && !includeSymbols}
           onClick={() =>
             setPassword(
               generatePassword(
@@ -105,8 +98,8 @@ export default function PasswordGenerator() {
                 includeNumbers,
                 includeSymbols,
                 includeUpperCase,
-                Number(passwordLength)
-              )
+                Number(passwordLength),
+              ),
             )
           }
         />

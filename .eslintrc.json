@@ -1,32 +1,57 @@
 {
+  "$schema": "https://json.schemastore.org/eslintrc.json",
+  "env": { "es6": true, "jest": true },
   "parserOptions": {
-    "sourceType": "module"
+    "project": "tsconfig.json"
   },
-  "env": { "es6": true, "cypress/globals": true, "jest": true },
-  "plugins": ["cypress", "import", "simple-import-sort"],
+  "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
   "extends": [
-    "eslint:recommended",
-    "next/core-web-vitals",
-    "plugin:cypress/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/recommended",
     "plugin:import/typescript",
-    "plugin:jest-dom/recommended",
-    "plugin:testing-library/react",
-    "prettier"
+    "prettier",
+    "next/core-web-vitals"
   ],
   "rules": {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "import/first": "error",
-    "import/newline-after-import": "error",
-    "import/no-duplicates": "error",
-    "eqeqeq": "error",
-    "no-unused-vars": "error",
-    "no-use-before-define": "error",
-    "no-console": "warn"
+    "import/no-mutable-exports": "error",
+    "import/no-cycle": "error",
+    "import/no-default-export": "error",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "types": {
+          "{}": false
+        }
+      }
+    ],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports",
+        "fixStyle": "inline-type-imports",
+        "disallowTypeAnnotations": false
+      }
+    ],
+    "import/no-duplicates": ["error", { "prefer-inline": true }],
+    "import/namespace": ["off"],
+    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/return-await": ["error", "in-try-catch"],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "@typescript-eslint/restrict-template-expressions": [
+      "error",
+      { "allowNumber": true, "allowBoolean": true }
+    ]
   },
   "overrides": [
     {
-      "files": ["**/*.js", "**/*.ts", "**/*.tsx"],
+      "files": ["src/**/*.ts?(x)"],
       "rules": {
         "simple-import-sort/imports": [
           "error",
@@ -34,7 +59,7 @@
             "groups": [
               ["^react", "^@?\\w"],
               ["^next", "^@?\\w"],
-              ["^(@|components|utils)(/.*|$)"],
+              ["^(@|components|utils|store)(/.*|$)"],
               ["^\\u0000"],
               ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
               ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
@@ -43,6 +68,13 @@
           }
         ]
       }
+    },
+    {
+      "files": ["src/app/**/*.ts?(x)", "src/components/**/*.ts?(x)"],
+      "rules": {
+        "import/no-default-export": "off"
+      }
     }
-  ]
+  ],
+  "ignorePatterns": ["*.js", "*.jsx"]
 }

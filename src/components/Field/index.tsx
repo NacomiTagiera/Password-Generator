@@ -1,8 +1,8 @@
 import { TextField } from '@mui/material';
 
-interface Props {
+type Props = {
   password: string;
-}
+};
 
 export default function Field({ password }: Props) {
   return (

@@ -2,11 +2,11 @@
 
 import { Checkbox, FormControlLabel } from '@mui/material';
 
-interface Props {
+type Props = {
   checked: boolean;
   label: string;
   onClick: () => void;
-}
+};
 
 export default function CheckBox({ checked, label, onClick }: Props) {
   return (

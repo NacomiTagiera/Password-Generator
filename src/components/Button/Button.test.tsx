@@ -34,9 +34,7 @@ describe('Button', () => {
   it('disables button when disabled prop is true', () => {
     const label = 'Button';
 
-    render(
-      <Button variant='text' label={label} disabled={true} onClick={() => {}} />
-    );
+    render(<Button variant='text' label={label} disabled={true} onClick={() => {}} />);
     const button = screen.getByRole('button', { name: label });
     expect(button).toBeDisabled();
   });

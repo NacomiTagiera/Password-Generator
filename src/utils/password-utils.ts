@@ -1,4 +1,6 @@
-export const defaultPasswordLength = 14;
+export const DEFAULT_PW_LENGTH = 14;
+export const PW_MIN_LENGTH = 6;
+export const PW_MAX_LENGTH = 32;
 
 export const shufflePassword = (password: string) => {
   const passwordArray = password.split('');
@@ -28,7 +30,7 @@ export const generatePassword = (
   includeNumbers: boolean,
   includeSymbols: boolean,
   includeUppercase: boolean,
-  length = defaultPasswordLength
+  length = DEFAULT_PW_LENGTH,
 ) => {
   const digits = '0123456789';
   const lowercaseLetters = 'qwertyuiopasdfghjklzxcvbnm';
@@ -36,10 +38,7 @@ export const generatePassword = (
   const uppercaseLetters = 'QWERTYUIOPASDFGHJKLZXCVBNM';
 
   if (
-    (!includeNumbers &&
-      !includeLowercase &&
-      !includeSymbols &&
-      !includeUppercase) ||
+    (!includeNumbers && !includeLowercase && !includeSymbols && !includeUppercase) ||
     length <= 0
   ) {
     return '';

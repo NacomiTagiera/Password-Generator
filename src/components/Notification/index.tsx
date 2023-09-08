@@ -1,9 +1,11 @@
-import { Alert, Slide, SlideProps, Snackbar } from '@mui/material';
+'use client';
 
-interface Props {
+import { Alert, Slide, type SlideProps, Snackbar } from '@mui/material';
+
+type Props = {
   open: boolean;
   onClose: () => void;
-}
+};
 
 type TransitionProps = Omit<SlideProps, 'direction'>;
 
