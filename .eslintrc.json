@@ -4,8 +4,10 @@
   "parserOptions": {
     "project": "tsconfig.json"
   },
-  "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
+  "plugins": ["@typescript-eslint", "jest-dom", "testing-library", "simple-import-sort", "import"],
   "extends": [
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/dom",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:import/recommended",
@@ -62,15 +64,14 @@
               ["^(@|components|utils|store)(/.*|$)"],
               ["^\\u0000"],
               ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
-              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-              ["^.+\\.s?css$"]
+              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"]
             ]
           }
         ]
       }
     },
     {
-      "files": ["src/app/**/*.ts?(x)", "src/components/**/*.ts?(x)"],
+      "files": ["src/app/**/*.ts?(x)"],
       "rules": {
         "import/no-default-export": "off"
       }

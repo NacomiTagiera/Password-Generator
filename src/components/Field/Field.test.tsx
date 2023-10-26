@@ -1,20 +1,18 @@
 import { render, screen } from '@testing-library/react';
 
-import Field from '.';
+import { Field } from '.';
 
 describe('Field', () => {
   const password = '1234567890';
-  const setup = () => render(<Field password={password} />);
+  const getFieldEl = () => screen.getByPlaceholderText('Your Password');
 
   it('renders password value correctly', () => {
-    setup();
-    const fieldElement = screen.getByPlaceholderText('Your Password');
-    expect(fieldElement).toHaveValue(password);
+    render(<Field password={password} />);
+    expect(getFieldEl()).toHaveValue(password);
   });
 
   it('displays correct label', () => {
-    setup();
-    const fieldLabel = screen.getByPlaceholderText('Your Password');
-    expect(fieldLabel).toBeInTheDocument();
+    render(<Field password={password} />);
+    expect(getFieldEl()).toBeInTheDocument();
   });
 });

@@ -1,41 +1,56 @@
 'use client';
 
-import { Box, Grid, Slider, TextField, Typography } from '@mui/material';
-
-import { PW_MAX_LENGTH, PW_MIN_LENGTH } from '@/utils/password-utils';
+import { Box, Grid, Slider as MuiSlider, TextField, Typography } from '@mui/material';
 
 type Props = {
+  label: string;
   value: number | '';
+  min: number;
+  max: number;
   onBlur: () => void;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSliderChange: (event: Event, newValue: number | number[]) => void;
 };
 
-export default function LengthSlider({ value, onInputChange, onSliderChange, onBlur }: Props) {
+export const Slider = ({
+  label,
+  value,
+  min,
+  max,
+  onInputChange,
+  onSliderChange,
+  onBlur,
+}: Props) => {
+  if (min > max) {
+    [min, max] = [max, min];
+  }
+
   return (
     <Box maxWidth='95%' mx='auto' pt={1}>
-      <Typography gutterBottom textAlign='center'>
-        Password length
+      <Typography id='slider-input-label' gutterBottom textAlign='center'>
+        {label}
       </Typography>
       <Grid container spacing={2} alignItems='center'>
         <Grid item xs>
-          <Slider
-            min={PW_MIN_LENGTH}
-            max={PW_MAX_LENGTH}
+          <MuiSlider
+            aria-describedby='slider-input-label'
+            min={min}
+            max={max}
             value={typeof value === 'number' ? value : 0}
             onChange={onSliderChange}
           />
         </Grid>
         <Grid item xs={4}>
           <TextField
-            id='password-length'
+            name='password-length'
+            aria-describedby='slider-input-label'
             value={value}
             size='small'
             onChange={onInputChange}
             onBlur={onBlur}
             inputProps={{
-              min: PW_MIN_LENGTH,
-              max: PW_MAX_LENGTH,
+              min: min,
+              max: max,
               type: 'number',
             }}
           />
@@ -43,4 +58,4 @@ export default function LengthSlider({ value, onInputChange, onSliderChange, onB
       </Grid>
     </Box>
   );
-}
+};

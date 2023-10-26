@@ -1,3 +1,5 @@
+import type { PasswordSettings } from '@/types';
+
 export const DEFAULT_PW_LENGTH = 14;
 export const PW_MIN_LENGTH = 6;
 export const PW_MAX_LENGTH = 32;
@@ -25,20 +27,16 @@ export const getRandomCharacter = (characters: string) => {
   return characters.charAt(randomIndex);
 };
 
-export const generatePassword = (
-  includeLowercase: boolean,
-  includeNumbers: boolean,
-  includeSymbols: boolean,
-  includeUppercase: boolean,
-  length = DEFAULT_PW_LENGTH,
-) => {
+export const generatePassword = (passwordSettings: PasswordSettings) => {
+  const { includeNumbers, includeLowerCase, includeSymbols, includeUpperCase, length } =
+    passwordSettings;
   const digits = '0123456789';
   const lowercaseLetters = 'qwertyuiopasdfghjklzxcvbnm';
   const symbols = '!@#$%^&*-_=+<>,.';
   const uppercaseLetters = 'QWERTYUIOPASDFGHJKLZXCVBNM';
 
   if (
-    (!includeNumbers && !includeLowercase && !includeSymbols && !includeUppercase) ||
+    (!includeNumbers && !includeLowerCase && !includeSymbols && !includeUpperCase) ||
     length <= 0
   ) {
     return '';
@@ -47,11 +45,11 @@ export const generatePassword = (
   let characterList = '';
   let pwd = '';
 
-  if (includeLowercase) {
+  if (includeLowerCase) {
     characterList += lowercaseLetters;
     pwd += getRandomCharacter(lowercaseLetters);
   }
-  if (includeUppercase) {
+  if (includeUpperCase) {
     characterList += uppercaseLetters;
     pwd += getRandomCharacter(uppercaseLetters);
   }

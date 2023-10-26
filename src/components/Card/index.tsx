@@ -1,10 +1,6 @@
 import { Paper } from '@mui/material';
 
-type Props = {
-  children: React.ReactNode;
-};
-
-export default function Card({ children }: Props) {
+export const Card = ({ children }: { children: React.ReactNode }) => {
   return (
     <Paper
       component='main'
@@ -19,4 +15,4 @@ export default function Card({ children }: Props) {
       {children}
     </Paper>
   );
-}
+};

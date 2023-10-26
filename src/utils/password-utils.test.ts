@@ -1,9 +1,6 @@
-import {
-  DEFAULT_PW_LENGTH,
-  generatePassword,
-  getRandomCharacter,
-  shufflePassword,
-} from './password-utils';
+import { type PasswordSettings } from '@/types';
+
+import { generatePassword, getRandomCharacter, shufflePassword } from './password-utils';
 
 describe('shufflePassword', () => {
   it('shuffles the characters in the password', () => {
@@ -35,22 +32,35 @@ describe('getRandomCharacter', () => {
 });
 
 describe('generatePassword', () => {
+  const passwordSettings: PasswordSettings = {
+    includeLowerCase: true,
+    includeUpperCase: true,
+    includeNumbers: true,
+    includeSymbols: true,
+    length: 10,
+  };
+
   it('returns an empty string when no options are selected or length is zero', () => {
-    const password = generatePassword(false, false, false, false, 0);
+    const password = generatePassword({ ...passwordSettings, length: 0 });
     expect(password).toBe('');
 
-    const passwordWithNoOptions = generatePassword(false, false, false, false, 10);
+    const passwordWithNoOptions = generatePassword({
+      includeLowerCase: false,
+      includeUpperCase: false,
+      includeNumbers: false,
+      includeSymbols: false,
+      length: 10,
+    });
     expect(passwordWithNoOptions).toBe('');
   });
 
-  it('generates a password with default length when no length is specified', () => {
-    const password = generatePassword(true, true, true, true);
-    expect(password.length).toBe(DEFAULT_PW_LENGTH);
-  });
-
   it('generates a password with the specified length and selected options', () => {
-    const password = generatePassword(true, false, true, false, 10); //includes lowercase letters and special characters
-    expect(password.length).toBe(10);
-    expect(password).toMatch(/^(?=.*[!@#$%^&*-_=+<>])(?=.*[a-z])[!@#$%^&*-_=+<>a-z]+$/);
+    const password = generatePassword({
+      ...passwordSettings,
+      includeUpperCase: false,
+      includeSymbols: false,
+    });
+    expect(password.length).toBe(passwordSettings.length);
+    expect(password).toMatch(/^(?=.*[a-z])(?=.*[0-9])[a-z0-9]+$/);
   });
 });

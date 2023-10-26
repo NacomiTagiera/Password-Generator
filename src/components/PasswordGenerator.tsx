@@ -1,9 +1,10 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { ContentCopy } from '@mui/icons-material';
 import { FormGroup, Stack } from '@mui/material';
 
+import { type PasswordSettings } from '@/types';
 import {
   DEFAULT_PW_LENGTH,
   generatePassword,
@@ -11,22 +12,28 @@ import {
   PW_MIN_LENGTH,
 } from '@/utils/password-utils';
 
-import Button from './Button';
-import Card from './Card';
-import CheckBox from './Checkbox';
-import Field from './Field';
-import Header from './Header';
-import LengthSlider from './LengthSlider';
-import Notification from './Notification';
+import { Button } from './Button';
+import { CheckBox } from './Checkbox';
+import { Field } from './Field';
+import { Notification } from './Notification';
+import { Slider } from './Slider';
 
-export default function PasswordGenerator() {
-  const [includeLowerCase, setIncludeLowerCase] = useState(true);
-  const [includeUpperCase, setIncludeUpperCase] = useState(true);
-  const [includeNumbers, setIncludeNumbers] = useState(true);
-  const [includeSymbols, setIncludeSymbols] = useState(true);
+export const PasswordGenerator = () => {
+  const [passwordSettings, setPasswordSettings] = useState<PasswordSettings>({
+    includeLowerCase: true,
+    includeUpperCase: true,
+    includeNumbers: true,
+    includeSymbols: true,
+    length: DEFAULT_PW_LENGTH,
+  });
   const [showAlert, setShowAlert] = useState(false);
   const [password, setPassword] = useState('');
-  const [passwordLength, setPasswordLength] = useState<number | ''>(DEFAULT_PW_LENGTH);
+
+  const toggleCheckbox = (
+    checkbox: 'includeLowerCase' | 'includeUpperCase' | 'includeNumbers' | 'includeSymbols',
+  ) => {
+    setPasswordSettings((prevState) => ({ ...prevState, [checkbox]: !prevState[checkbox] }));
+  };
 
   const handleCopyPw = () => {
     void navigator.clipboard.writeText(password);
@@ -34,77 +41,75 @@ export default function PasswordGenerator() {
     setTimeout(() => setShowAlert(false), 3000);
   };
 
-  const handleBlur = () => {
-    if (passwordLength === '' || passwordLength < PW_MIN_LENGTH) {
-      setPasswordLength(PW_MIN_LENGTH);
-    } else if (passwordLength > PW_MAX_LENGTH) {
-      setPasswordLength(PW_MAX_LENGTH);
+  const handleInputBlur = () => {
+    if (passwordSettings.length === '' || passwordSettings.length < PW_MIN_LENGTH) {
+      setPasswordSettings({ ...passwordSettings, length: PW_MIN_LENGTH });
+    } else if (passwordSettings.length > PW_MAX_LENGTH) {
+      setPasswordSettings({ ...passwordSettings, length: PW_MAX_LENGTH });
     }
   };
 
   return (
-    <Fragment>
-      <Card>
-        <Header />
-        <Stack direction='row' spacing={1} alignItems='center'>
-          <Field password={password} />
-          <Button
-            variant='icon'
-            icon={<ContentCopy fontSize='inherit' />}
-            disabled={!password || showAlert}
-            onClick={handleCopyPw}
-          />
-        </Stack>
-        <LengthSlider
-          value={passwordLength}
-          onBlur={handleBlur}
-          onInputChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setPasswordLength(event.target.value === '' ? '' : Number(event.target.value));
-          }}
-          onSliderChange={(_event: Event, newValue: number | number[]) => {
-            setPasswordLength(newValue as number);
-          }}
-        />
-        <FormGroup>
-          <CheckBox
-            checked={includeLowerCase}
-            label='Include lowercase letters'
-            onClick={() => setIncludeLowerCase((prevState) => !prevState)}
-          />
-          <CheckBox
-            checked={includeUpperCase}
-            label='Include uppercase letters'
-            onClick={() => setIncludeUpperCase((prevState) => !prevState)}
-          />
-          <CheckBox
-            checked={includeNumbers}
-            label='Include numbers'
-            onClick={() => setIncludeNumbers((prevState) => !prevState)}
-          />
-          <CheckBox
-            checked={includeSymbols}
-            label='Include special characters'
-            onClick={() => setIncludeSymbols((prevState) => !prevState)}
-          />
-        </FormGroup>
+    <>
+      <Stack direction='row' spacing={1} alignItems='center' justifyContent='center'>
+        <Field password={password} />
         <Button
-          variant='text'
-          label='Generate'
-          disabled={!includeLowerCase && !includeUpperCase && !includeNumbers && !includeSymbols}
-          onClick={() =>
-            setPassword(
-              generatePassword(
-                includeLowerCase,
-                includeNumbers,
-                includeSymbols,
-                includeUpperCase,
-                Number(passwordLength),
-              ),
-            )
-          }
+          variant='icon'
+          icon={<ContentCopy fontSize='inherit' />}
+          disabled={!password || showAlert}
+          onClick={handleCopyPw}
         />
-      </Card>
+      </Stack>
+      <Slider
+        label='Password length'
+        value={passwordSettings.length}
+        min={PW_MIN_LENGTH}
+        max={PW_MAX_LENGTH}
+        onBlur={handleInputBlur}
+        onInputChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setPasswordSettings({
+            ...passwordSettings,
+            length: event.target.value === '' ? '' : Number(event.target.value),
+          });
+        }}
+        onSliderChange={(_event: Event, newValue: number | number[]) => {
+          setPasswordSettings({ ...passwordSettings, length: newValue as number });
+        }}
+      />
+      <FormGroup>
+        <CheckBox
+          checked={passwordSettings.includeLowerCase}
+          label='Include lowercase letters'
+          onClick={() => toggleCheckbox('includeLowerCase')}
+        />
+        <CheckBox
+          checked={passwordSettings.includeUpperCase}
+          label='Include uppercase letters'
+          onClick={() => toggleCheckbox('includeUpperCase')}
+        />
+        <CheckBox
+          checked={passwordSettings.includeNumbers}
+          label='Include numbers'
+          onClick={() => toggleCheckbox('includeNumbers')}
+        />
+        <CheckBox
+          checked={passwordSettings.includeSymbols}
+          label='Include special characters'
+          onClick={() => toggleCheckbox('includeSymbols')}
+        />
+      </FormGroup>
+      <Button
+        variant='text'
+        label='Generate'
+        disabled={
+          !passwordSettings.includeLowerCase &&
+          !passwordSettings.includeUpperCase &&
+          !passwordSettings.includeNumbers &&
+          !passwordSettings.includeSymbols
+        }
+        onClick={() => setPassword(generatePassword(passwordSettings))}
+      />
       <Notification open={showAlert} onClose={() => setShowAlert(false)} />
-    </Fragment>
+    </>
   );
-}
+};

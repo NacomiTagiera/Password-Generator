@@ -3,14 +3,15 @@
 import { Checkbox, FormControlLabel } from '@mui/material';
 
 type Props = {
-  checked: boolean;
   label: string;
+  checked?: boolean;
   onClick: () => void;
 };
 
-export default function CheckBox({ checked, label, onClick }: Props) {
+export const CheckBox = ({ checked, label, onClick }: Props) => {
   return (
     <FormControlLabel
+      sx={{ maxWidth: 'fit-content' }}
       control={
         <Checkbox
           name={label}
@@ -24,4 +25,4 @@ export default function CheckBox({ checked, label, onClick }: Props) {
       label={label}
     />
   );
-}
+};

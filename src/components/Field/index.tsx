@@ -1,13 +1,9 @@
 import { TextField } from '@mui/material';
 
-type Props = {
-  password: string;
-};
-
-export default function Field({ password }: Props) {
+export const Field = ({ password }: { password: string }) => {
   return (
     <TextField
-      id='password'
+      name='password'
       fullWidth
       value={password}
       variant='standard'
@@ -17,4 +13,4 @@ export default function Field({ password }: Props) {
       }}
     />
   );
-}
+};

@@ -2,17 +2,15 @@
 
 import { Button as MuiButton, IconButton } from '@mui/material';
 
-type ButtonVariant = 'text' | 'icon';
-
 type Props = {
-  variant: ButtonVariant;
+  variant: 'text' | 'icon';
+  label?: string;
   disabled?: boolean;
   icon?: React.ReactNode;
-  label?: string;
   onClick: () => void;
 } & ({ variant: 'text'; label: string } | { variant: 'icon'; icon: React.ReactNode });
 
-export default function Button({ variant, disabled = false, icon, label, onClick }: Props) {
+export const Button = ({ variant, disabled, icon, label, onClick }: Props) => {
   return variant === 'icon' ? (
     <IconButton
       aria-label={label ?? 'Copy Password'}
@@ -28,4 +26,4 @@ export default function Button({ variant, disabled = false, icon, label, onClick
       {label}
     </MuiButton>
   );
-}
+};

@@ -1,8 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import Button from '.';
+import { Button } from '.';
 
 describe('Button', () => {
+  const label = 'Button';
+  const getTextButton = () => screen.getByRole('button', { name: label });
+
   it('renders correctly with an icon', () => {
     const icon = <span data-testid='icon'>Icon</span>;
 
@@ -13,29 +16,22 @@ describe('Button', () => {
   });
 
   it('renders correctly with text', () => {
-    const label = 'Text Button';
-
     render(<Button variant='text' label={label} onClick={() => {}} />);
-    const textButton = screen.getByRole('button', { name: label });
-    expect(textButton).toBeInTheDocument();
-    expect(textButton).toBeEnabled();
+    const buttonEl = getTextButton();
+    expect(buttonEl).toBeInTheDocument();
+    expect(buttonEl).toBeEnabled();
   });
 
   it('calls onClick handler when button is clicked', () => {
     const handleClick = jest.fn();
-    const label = 'Button';
 
     render(<Button variant='text' label={label} onClick={handleClick} />);
-    const button = screen.getByRole('button', { name: label });
-    fireEvent.click(button);
+    fireEvent.click(getTextButton());
     expect(handleClick).toHaveBeenCalled();
   });
 
   it('disables button when disabled prop is true', () => {
-    const label = 'Button';
-
-    render(<Button variant='text' label={label} disabled={true} onClick={() => {}} />);
-    const button = screen.getByRole('button', { name: label });
-    expect(button).toBeDisabled();
+    render(<Button variant='text' label={label} disabled onClick={() => {}} />);
+    expect(getTextButton()).toBeDisabled();
   });
 });
