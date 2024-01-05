@@ -37,7 +37,7 @@ export const generatePassword = (passwordSettings: PasswordSettings) => {
 
   if (
     (!includeNumbers && !includeLowerCase && !includeSymbols && !includeUpperCase) ||
-    length <= 0
+    Number(length) <= 0
   ) {
     return '';
   }
@@ -62,7 +62,7 @@ export const generatePassword = (passwordSettings: PasswordSettings) => {
     pwd += getRandomCharacter(symbols);
   }
 
-  while (pwd.length < length) {
+  while (pwd.length < Number(length)) {
     const charIndex = Math.floor(Math.random() * characterList.length);
     pwd += characterList.charAt(charIndex);
   }

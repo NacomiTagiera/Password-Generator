@@ -30,7 +30,7 @@ describe('Button', () => {
     expect(handleClick).toHaveBeenCalled();
   });
 
-  it('disables button when disabled prop is true', () => {
+  it('is disabled when disabled prop is true', () => {
     render(<Button variant='text' label={label} disabled onClick={() => {}} />);
     expect(getTextButton()).toBeDisabled();
   });
