@@ -6,9 +6,10 @@ type Props = {
   label: string;
   checked?: boolean;
   onClick: () => void;
+  testId?: string;
 };
 
-export const CheckBox = ({ checked, label, onClick }: Props) => {
+export const CheckBox = ({ checked, label, onClick, testId }: Props) => {
   return (
     <FormControlLabel
       sx={{ maxWidth: 'fit-content' }}
@@ -20,6 +21,7 @@ export const CheckBox = ({ checked, label, onClick }: Props) => {
           inputProps={{
             'aria-label': label,
           }}
+          data-testid={testId}
         />
       }
       label={label}

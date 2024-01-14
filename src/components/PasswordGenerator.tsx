@@ -81,21 +81,25 @@ export const PasswordGenerator = () => {
           checked={passwordSettings.includeLowerCase}
           label='Include lowercase letters'
           onClick={() => toggleCheckbox('includeLowerCase')}
+          testId='lowercase-checkbox'
         />
         <CheckBox
           checked={passwordSettings.includeUpperCase}
           label='Include uppercase letters'
           onClick={() => toggleCheckbox('includeUpperCase')}
+          testId='uppercase-checkbox'
         />
         <CheckBox
           checked={passwordSettings.includeNumbers}
           label='Include numbers'
           onClick={() => toggleCheckbox('includeNumbers')}
+          testId='digits-checkbox'
         />
         <CheckBox
           checked={passwordSettings.includeSymbols}
           label='Include special characters'
           onClick={() => toggleCheckbox('includeSymbols')}
+          testId='symbols-checkbox'
         />
       </FormGroup>
       <Button

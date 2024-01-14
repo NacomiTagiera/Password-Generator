@@ -11,6 +11,7 @@ export const Field = ({ password }: { password: string }) => {
       InputProps={{
         readOnly: true,
       }}
+      data-testid='password-field'
     />
   );
 };

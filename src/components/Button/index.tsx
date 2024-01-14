@@ -18,11 +18,18 @@ export const Button = ({ variant, disabled, icon, label, onClick }: Props) => {
       color='primary'
       size='large'
       onClick={onClick}
+      data-testid='copy-btn'
     >
       {icon}
     </IconButton>
   ) : (
-    <MuiButton variant='contained' disabled={disabled} onClick={onClick} sx={{ mt: '1rem' }}>
+    <MuiButton
+      variant='contained'
+      disabled={disabled}
+      onClick={onClick}
+      sx={{ mt: '1rem' }}
+      data-testid='generate-btn'
+    >
       {label}
     </MuiButton>
   );

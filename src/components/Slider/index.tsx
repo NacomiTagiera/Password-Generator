@@ -38,6 +38,7 @@ export const Slider = ({
             max={max}
             value={typeof value === 'number' ? value : 0}
             onChange={onSliderChange}
+            data-testid='length-slider'
           />
         </Grid>
         <Grid item xs={4}>
@@ -53,6 +54,7 @@ export const Slider = ({
               max: max,
               type: 'number',
             }}
+            data-testid='length-field'
           />
         </Grid>
       </Grid>

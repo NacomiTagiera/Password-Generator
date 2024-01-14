@@ -15,7 +15,12 @@ function Transition(props: TransitionProps) {
 
 export const Notification = ({ open, onClose }: Props) => {
   return (
-    <Snackbar open={open} onClose={onClose} TransitionComponent={Transition}>
+    <Snackbar
+      open={open}
+      onClose={onClose}
+      TransitionComponent={Transition}
+      data-testid='notification'
+    >
       <Alert onClose={onClose}>Password has been copied</Alert>
     </Snackbar>
   );
