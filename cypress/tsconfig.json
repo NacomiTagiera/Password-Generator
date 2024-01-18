@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "target": "es2022",
     "lib": ["es2022", "dom"],
-    "types": ["node", "cypress"]
+    "types": ["node", "cypress", "cypress-real-events"]
   },
   "include": ["**/*.ts", "**/*.cy.ts"],
   "isolatedModules": false
