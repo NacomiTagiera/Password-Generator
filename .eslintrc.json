@@ -75,6 +75,13 @@
       "rules": {
         "import/no-default-export": "off"
       }
+    },
+    {
+      "files": ["cypress/**/*.ts"],
+      "parserOptions": {
+        "project": ["cypress/tsconfig.json"]
+      },
+      "extends": ["plugin:cypress/recommended"]
     }
   ],
   "ignorePatterns": ["*.js", "*.jsx"]
