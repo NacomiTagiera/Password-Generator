@@ -1,7 +1,7 @@
 export type PasswordSettings = {
   includeLowerCase: boolean;
   includeUpperCase: boolean;
-  includeNumbers: boolean;
+  includeDigits: boolean;
   includeSymbols: boolean;
-  length: number | '';
+  length: number;
 };

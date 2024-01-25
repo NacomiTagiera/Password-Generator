@@ -22,7 +22,7 @@ export const PasswordGenerator = () => {
   const [passwordSettings, setPasswordSettings] = useState<PasswordSettings>({
     includeLowerCase: true,
     includeUpperCase: true,
-    includeNumbers: true,
+    includeDigits: true,
     includeSymbols: true,
     length: DEFAULT_PW_LENGTH,
   });
@@ -30,7 +30,7 @@ export const PasswordGenerator = () => {
   const [password, setPassword] = useState('');
 
   const toggleCheckbox = (
-    checkbox: 'includeLowerCase' | 'includeUpperCase' | 'includeNumbers' | 'includeSymbols',
+    checkbox: 'includeLowerCase' | 'includeUpperCase' | 'includeDigits' | 'includeSymbols',
   ) => {
     setPasswordSettings((prevState) => ({ ...prevState, [checkbox]: !prevState[checkbox] }));
   };
@@ -42,7 +42,7 @@ export const PasswordGenerator = () => {
   };
 
   const handleInputBlur = () => {
-    if (passwordSettings.length === '' || passwordSettings.length < PW_MIN_LENGTH) {
+    if (passwordSettings.length < PW_MIN_LENGTH) {
       setPasswordSettings({ ...passwordSettings, length: PW_MIN_LENGTH });
     } else if (passwordSettings.length > PW_MAX_LENGTH) {
       setPasswordSettings({ ...passwordSettings, length: PW_MAX_LENGTH });
@@ -71,13 +71,13 @@ export const PasswordGenerator = () => {
         min={PW_MIN_LENGTH}
         max={PW_MAX_LENGTH}
         onBlur={handleInputBlur}
-        onInputChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+        onInputChange={(event) => {
           setPasswordSettings({
             ...passwordSettings,
-            length: event.target.value === '' ? '' : Number(event.target.value),
+            length: Number(event.target.value) || PW_MIN_LENGTH,
           });
         }}
-        onSliderChange={(_event: Event, newValue: number | number[]) => {
+        onSliderChange={(_event, newValue: number | number[]) => {
           setPasswordSettings({ ...passwordSettings, length: newValue as number });
         }}
       />
@@ -98,9 +98,9 @@ export const PasswordGenerator = () => {
         />
         <CheckBox
           name='digits'
-          checked={passwordSettings.includeNumbers}
+          checked={passwordSettings.includeDigits}
           label='Include digits'
-          onChange={() => toggleCheckbox('includeNumbers')}
+          onChange={() => toggleCheckbox('includeDigits')}
           data-testid='digits-checkbox'
         />
         <CheckBox
@@ -116,7 +116,7 @@ export const PasswordGenerator = () => {
         disabled={
           !passwordSettings.includeLowerCase &&
           !passwordSettings.includeUpperCase &&
-          !passwordSettings.includeNumbers &&
+          !passwordSettings.includeDigits &&
           !passwordSettings.includeSymbols
         }
         sx={{ mt: '1rem' }}
