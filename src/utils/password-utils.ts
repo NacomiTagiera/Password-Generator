@@ -4,6 +4,11 @@ export const DEFAULT_PW_LENGTH = 14;
 export const PW_MIN_LENGTH = 6;
 export const PW_MAX_LENGTH = 32;
 
+export const DIGITS = '0123456789';
+export const LOWERCASE_LETTERS = 'qwertyuiopasdfghjklzxcvbnm';
+export const SYMBOLS = '!@#$%^&*-_=+<>,.';
+export const UPPERCASE_LETTERS = 'QWERTYUIOPASDFGHJKLZXCVBNM';
+
 export const shufflePassword = (password: string) => {
   const passwordArray = password.split('');
   let randomIndex: number,
@@ -28,15 +33,10 @@ export const getRandomCharacter = (characters: string) => {
 };
 
 export const generatePassword = (passwordSettings: PasswordSettings) => {
-  const { includeNumbers, includeLowerCase, includeSymbols, includeUpperCase, length } =
+  const { includeDigits, includeLowerCase, includeSymbols, includeUpperCase, length } =
     passwordSettings;
-  const digits = '0123456789';
-  const lowercaseLetters = 'qwertyuiopasdfghjklzxcvbnm';
-  const symbols = '!@#$%^&*-_=+<>,.';
-  const uppercaseLetters = 'QWERTYUIOPASDFGHJKLZXCVBNM';
-
   if (
-    (!includeNumbers && !includeLowerCase && !includeSymbols && !includeUpperCase) ||
+    (!includeDigits && !includeLowerCase && !includeSymbols && !includeUpperCase) ||
     Number(length) <= 0
   ) {
     return '';
@@ -46,25 +46,24 @@ export const generatePassword = (passwordSettings: PasswordSettings) => {
   let pwd = '';
 
   if (includeLowerCase) {
-    characterList += lowercaseLetters;
-    pwd += getRandomCharacter(lowercaseLetters);
+    characterList += LOWERCASE_LETTERS;
+    pwd += getRandomCharacter(LOWERCASE_LETTERS);
   }
   if (includeUpperCase) {
-    characterList += uppercaseLetters;
-    pwd += getRandomCharacter(uppercaseLetters);
+    characterList += UPPERCASE_LETTERS;
+    pwd += getRandomCharacter(UPPERCASE_LETTERS);
   }
-  if (includeNumbers) {
-    characterList += digits;
-    pwd += getRandomCharacter(digits);
+  if (includeDigits) {
+    characterList += DIGITS;
+    pwd += getRandomCharacter(DIGITS);
   }
   if (includeSymbols) {
-    characterList += symbols;
-    pwd += getRandomCharacter(symbols);
+    characterList += SYMBOLS;
+    pwd += getRandomCharacter(SYMBOLS);
   }
 
   while (pwd.length < Number(length)) {
-    const charIndex = Math.floor(Math.random() * characterList.length);
-    pwd += characterList.charAt(charIndex);
+    pwd += getRandomCharacter(characterList);
   }
 
   return shufflePassword(pwd);

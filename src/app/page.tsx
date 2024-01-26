@@ -5,7 +5,7 @@ import { PasswordGenerator } from '@/components/PasswordGenerator';
 export default function Home() {
   return (
     <Card>
-      <Header />
+      <Header>Password Generator</Header>
       <PasswordGenerator />
     </Card>
   );

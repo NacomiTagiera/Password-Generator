@@ -1,8 +1,7 @@
-'use client';
-
 import { Alert, Slide, type SlideProps, Snackbar } from '@mui/material';
 
 type Props = {
+  children: React.ReactNode;
   open?: boolean;
   onClose: () => void;
 };
@@ -13,7 +12,7 @@ function Transition(props: TransitionProps) {
   return <Slide {...props} direction='right' />;
 }
 
-export const Notification = ({ open, onClose }: Props) => {
+export const Notification = ({ children, open, onClose }: Props) => {
   return (
     <Snackbar
       open={open}
@@ -21,7 +20,7 @@ export const Notification = ({ open, onClose }: Props) => {
       TransitionComponent={Transition}
       data-testid='notification'
     >
-      <Alert onClose={onClose}>Password has been copied</Alert>
+      <Alert onClose={onClose}>{children}</Alert>
     </Snackbar>
   );
 };

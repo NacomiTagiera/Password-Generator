@@ -1,10 +1,8 @@
-'use client';
-
 import { Box, Grid, Slider as MuiSlider, TextField, Typography } from '@mui/material';
 
 type Props = {
   label: string;
-  value: number | '';
+  value: number;
   min: number;
   max: number;
   onBlur: () => void;
@@ -36,7 +34,7 @@ export const Slider = ({
             aria-describedby='slider-input-label'
             min={min}
             max={max}
-            value={typeof value === 'number' ? value : 0}
+            value={value}
             onChange={onSliderChange}
             data-testid='length-slider'
           />

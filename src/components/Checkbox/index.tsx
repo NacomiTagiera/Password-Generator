@@ -1,27 +1,19 @@
-'use client';
-
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Checkbox, type CheckboxProps, FormControlLabel } from '@mui/material';
 
 type Props = {
   label: string;
-  checked?: boolean;
-  onClick: () => void;
-  testId?: string;
-};
+} & CheckboxProps;
 
-export const CheckBox = ({ checked, label, onClick, testId }: Props) => {
+export const CheckBox = ({ label, ...rest }: Props) => {
   return (
     <FormControlLabel
       sx={{ maxWidth: 'fit-content' }}
       control={
         <Checkbox
-          name={label}
-          checked={checked}
-          onClick={onClick}
           inputProps={{
             'aria-label': label,
           }}
-          data-testid={testId}
+          {...rest}
         />
       }
       label={label}
