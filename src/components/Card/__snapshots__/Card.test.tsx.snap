@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card renders correctly 1`] = `
+<DocumentFragment>
+  <main
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 css-hho69s-MuiPaper-root"
+  >
+    Test
+  </main>
+</DocumentFragment>
+`;

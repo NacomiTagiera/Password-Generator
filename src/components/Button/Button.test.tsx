@@ -1,37 +1,36 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { Button } from '.';
 
 describe('Button', () => {
-  const label = 'Button';
-  const getTextButton = () => screen.getByRole('button', { name: label });
+  it('renders with default props', () => {
+    const { asFragment } = render(<Button />);
 
-  it('renders correctly with an icon', () => {
-    const icon = <span data-testid='icon'>Icon</span>;
-
-    render(<Button variant='icon' icon={icon} onClick={() => {}} />);
-    const iconButton = screen.getByTestId('icon');
-    expect(iconButton).toBeInTheDocument();
-    expect(iconButton).toBeEnabled();
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly with text', () => {
-    render(<Button variant='text' label={label} onClick={() => {}} />);
-    const buttonEl = getTextButton();
-    expect(buttonEl).toBeInTheDocument();
-    expect(buttonEl).toBeEnabled();
+  it('displays its content', () => {
+    render(<Button>Click Me!</Button>);
+    screen.getByText('Click Me!');
+
+    render(
+      <Button type='icon'>
+        <span data-testid='icon'>Icon Button</span>
+      </Button>,
+    );
+    screen.getByTestId('icon');
   });
 
-  it('calls onClick handler when button is clicked', () => {
-    const handleClick = jest.fn();
+  it('injects native button properties', () => {
+    render(<Button role='button'>Click me!</Button>);
 
-    render(<Button variant='text' label={label} onClick={handleClick} />);
-    fireEvent.click(getTextButton());
-    expect(handleClick).toHaveBeenCalled();
+    screen.getByRole('button');
   });
 
-  it('is disabled when disabled prop is true', () => {
-    render(<Button variant='text' label={label} disabled onClick={() => {}} />);
-    expect(getTextButton()).toBeDisabled();
+  it('assigns MUI class names by properties', () => {
+    render(<Button variant='contained'>Click me!</Button>);
+
+    const buttonEl = screen.getByText('Click me!');
+    expect(buttonEl.className).toMatch(/MuiButton-contained/);
   });
 });

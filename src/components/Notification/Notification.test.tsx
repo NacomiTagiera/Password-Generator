@@ -1,26 +1,45 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { Notification } from '.';
 
 describe('Notification', () => {
-  const text = 'Password has been copied';
-  const getNotificationEl = () => screen.queryByText(text);
+  it('renders correctly', () => {
+    const { asFragment } = render(
+      <Notification open onClose={() => {}}>
+        Test
+      </Notification>,
+    );
 
-  it('renders with correct message when open is true', () => {
-    render(<Notification open onClose={() => {}} />);
-    expect(getNotificationEl()).toBeInTheDocument();
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('does not render when open prop is not passed', () => {
-    render(<Notification onClose={() => {}} />);
-    expect(getNotificationEl()).not.toBeInTheDocument();
+  it('displays its children', () => {
+    render(
+      <Notification open onClose={() => {}}>
+        Test
+      </Notification>,
+    );
+
+    screen.getByText('Test');
   });
 
-  it('calls onClose function when button is clicked', () => {
-    const onCloseMock = jest.fn();
-    render(<Notification open onClose={onCloseMock} />);
-    const closeButton = screen.getByRole('button');
-    fireEvent.click(closeButton);
-    expect(onCloseMock).toHaveBeenCalled();
+  it('is hidden initially', () => {
+    render(<Notification onClose={() => {}}>Test</Notification>);
+
+    expect(screen.queryByTestId('notification')).not.toBeInTheDocument();
+  });
+
+  it('invokes the onClose function when the close button is clicked', async () => {
+    const handleClose = jest.fn();
+
+    render(
+      <Notification open onClose={handleClose}>
+        Test
+      </Notification>,
+    );
+
+    await userEvent.click(screen.getByRole('button'));
+    expect(handleClose).toHaveBeenCalledTimes(1);
   });
 });
