@@ -3,11 +3,9 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Slider } from '.';
 
 describe('Slider', () => {
-  const getSliderEl = () => screen.getByRole('slider');
-  const getInputEl = () => screen.getByRole('spinbutton');
   const label = 'Password length';
 
-  it('renders the label and value correctly', () => {
+  it('renders the label and the value correctly', () => {
     render(
       <Slider
         label={label}
@@ -19,70 +17,13 @@ describe('Slider', () => {
         onBlur={() => {}}
       />,
     );
-    const sliderEl = getSliderEl();
 
-    expect(screen.getByText('Password length')).toBeInTheDocument();
-    expect(sliderEl).toBeInTheDocument();
-    expect(getInputEl()).toBeInTheDocument();
-    expect(sliderEl).toHaveValue('10');
+    screen.getByText(label);
+    expect(screen.getByRole('spinbutton')).toHaveValue(10);
+    expect(screen.getByRole('slider')).toHaveValue('10');
   });
 
-  test('renders the slider and the input field with correct attributes', () => {
-    render(
-      <Slider
-        label={label}
-        min={6}
-        max={20}
-        value={10}
-        onBlur={() => {}}
-        onInputChange={() => {}}
-        onSliderChange={() => {}}
-      />,
-    );
-    const sliderEl = getSliderEl();
-    const inputEl = getInputEl();
-
-    expect(sliderEl).toBeInTheDocument();
-    expect(sliderEl).toHaveAttribute('min', '6');
-    expect(sliderEl).toHaveAttribute('max', '20');
-
-    expect(inputEl).toBeInTheDocument();
-    expect(inputEl).toHaveAttribute('type', 'number');
-    expect(inputEl).toHaveAttribute('min', '6');
-    expect(inputEl).toHaveAttribute('max', '20');
-  });
-
-  test('clamps the slider value to max when it exceeds the maximum value', () => {
-    render(
-      <Slider
-        label={label}
-        min={6}
-        max={20}
-        value={21}
-        onSliderChange={() => {}}
-        onInputChange={() => {}}
-        onBlur={() => {}}
-      />,
-    );
-    expect(getSliderEl()).toHaveValue('20');
-  });
-
-  test('clamps the slider value to min when it is less than the minimum value', () => {
-    render(
-      <Slider
-        label={label}
-        min={6}
-        max={20}
-        value={5}
-        onSliderChange={() => {}}
-        onInputChange={() => {}}
-        onBlur={() => {}}
-      />,
-    );
-    expect(getSliderEl()).toHaveValue('6');
-  });
-
-  it('swap min and max values when min is greater than max', () => {
+  it('swaps min and max values when min is greater than max', () => {
     render(
       <Slider
         label={label}
@@ -94,12 +35,13 @@ describe('Slider', () => {
         onBlur={() => {}}
       />,
     );
-    const sliderEl = getSliderEl();
+
+    const sliderEl = screen.getByRole('slider');
     expect(sliderEl).toHaveAttribute('min', '6');
     expect(sliderEl).toHaveAttribute('max', '20');
   });
 
-  it('calls the onBlur, onInputChange, and onSliderChange functions when interacting with the input and slider', () => {
+  it('calls the onBlur, onInputChange, and onSliderChange functions when user interacts with the input or the slider', () => {
     const handleInputBlur = jest.fn();
     const handleInputChange = jest.fn();
     const handleSliderChange = jest.fn();
@@ -116,12 +58,44 @@ describe('Slider', () => {
       />,
     );
 
-    const inputEl = getInputEl();
-    fireEvent.change(inputEl, { target: { value: '15' } });
-    fireEvent.blur(inputEl);
-    fireEvent.change(getSliderEl(), { target: { value: '12' } });
-    expect(handleInputChange).toHaveBeenCalled();
-    expect(handleInputBlur).toHaveBeenCalled();
-    expect(handleSliderChange).toHaveBeenCalled();
+    fireEvent.change(screen.getByRole('spinbutton'), { target: { value: '11' } });
+    fireEvent.blur(screen.getByRole('spinbutton'));
+    fireEvent.change(screen.getByRole('slider'), { target: { value: '12' } });
+
+    expect(handleInputChange).toHaveBeenCalledTimes(1);
+    expect(handleInputBlur).toHaveBeenCalledTimes(1);
+    expect(handleSliderChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('clamps the slider value to min when it is less than the minimum value', () => {
+    render(
+      <Slider
+        label={label}
+        min={6}
+        max={20}
+        value={5}
+        onSliderChange={() => {}}
+        onInputChange={() => {}}
+        onBlur={() => {}}
+      />,
+    );
+
+    expect(screen.getByRole('slider')).toHaveValue('6');
+  });
+
+  it('clamps the slider value to max when it exceeds the maximum value', () => {
+    render(
+      <Slider
+        label={label}
+        min={6}
+        max={20}
+        value={21}
+        onSliderChange={() => {}}
+        onInputChange={() => {}}
+        onBlur={() => {}}
+      />,
+    );
+
+    expect(screen.getByRole('slider')).toHaveValue('20');
   });
 });

@@ -1,27 +1,35 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { CheckBox } from '.';
 
 describe('CheckBox', () => {
-  const label = 'Label';
-  const getCheckbox = () => screen.getByLabelText(label);
+  const label = 'Test Checkbox';
 
-  it('renders the label and checked state correctly', () => {
-    render(<CheckBox label={label} onClick={() => {}} />);
-    const labelEl = screen.getByText(label);
-    expect(labelEl).toBeInTheDocument();
-    expect(getCheckbox()).not.toBeChecked();
+  it('renders with default props', () => {
+    const { asFragment } = render(<CheckBox label={label} />);
+
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('calls the onClick function when clicked', () => {
-    const onClickMock = jest.fn();
-    render(<CheckBox label={label} onClick={onClickMock} />);
-    fireEvent.click(getCheckbox());
-    expect(onClickMock).toHaveBeenCalled();
+  it('displays provided label and assigns aria-label', () => {
+    render(<CheckBox label={label} />);
+
+    screen.getByText(label);
+    screen.getByLabelText(label);
   });
 
-  it('displays the correct checked state when checked prop is passed', () => {
-    render(<CheckBox checked label={label} onClick={() => {}} />);
-    expect(getCheckbox()).toBeChecked();
+  it('injects native checkbox properties', () => {
+    render(<CheckBox label={label} checked />);
+
+    expect(screen.getByRole('checkbox')).toBeChecked();
+  });
+
+  it('invokes onChange function when clicked', async () => {
+    const handleChange = jest.fn();
+    render(<CheckBox label={label} onChange={handleChange} />);
+
+    await userEvent.click(screen.getByRole('checkbox'));
+    expect(handleChange).toHaveBeenCalledTimes(1);
   });
 });

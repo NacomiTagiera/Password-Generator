@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders correctly 1`] = `
+<DocumentFragment>
+  <h1
+    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-fbyw1b-MuiTypography-root"
+  >
+    Test
+  </h1>
+</DocumentFragment>
+`;

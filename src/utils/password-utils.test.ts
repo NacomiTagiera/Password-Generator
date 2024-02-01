@@ -7,6 +7,7 @@ describe('Password utils', () => {
     it('shuffles the characters in the password', () => {
       const password = 'password';
       const shuffledPassword = shufflePassword(password);
+
       expect(shuffledPassword).not.toBe(password);
       expect(shuffledPassword.split('').sort().join('')).toBe(password.split('').sort().join(''));
     });
@@ -14,6 +15,7 @@ describe('Password utils', () => {
     it('returns an empty string for an empty password', () => {
       const password = '';
       const shuffledPassword = shufflePassword(password);
+
       expect(shuffledPassword).toBe('');
     });
   });
@@ -22,12 +24,14 @@ describe('Password utils', () => {
     it('returns a random character from the given characters string', () => {
       const characters = 'abcde';
       const randomCharacter = getRandomCharacter(characters);
+
       expect(characters).toContain(randomCharacter);
     });
 
     it('returns an empty string for an empty characters string', () => {
       const characters = '';
       const randomCharacter = getRandomCharacter(characters);
+
       expect(randomCharacter).toBe('');
     });
   });
@@ -36,7 +40,7 @@ describe('Password utils', () => {
     const passwordSettings: PasswordSettings = {
       includeLowerCase: true,
       includeUpperCase: true,
-      includeNumbers: true,
+      includeDigits: true,
       includeSymbols: true,
       length: 10,
     };
@@ -45,15 +49,17 @@ describe('Password utils', () => {
       const passwordWithNoOptions = generatePassword({
         includeLowerCase: false,
         includeUpperCase: false,
-        includeNumbers: false,
+        includeDigits: false,
         includeSymbols: false,
         length: 10,
       });
+
       expect(passwordWithNoOptions).toBe('');
     });
 
     it('returns an empty string when the length is 0', () => {
       const password = generatePassword({ ...passwordSettings, length: 0 });
+
       expect(password).toBe('');
     });
 
@@ -63,6 +69,7 @@ describe('Password utils', () => {
         includeUpperCase: false,
         includeSymbols: false,
       });
+
       expect(password.length).toBe(passwordSettings.length);
       expect(password).toMatch(/^(?=.*[a-z])(?=.*[0-9])[a-z0-9]+$/);
     });

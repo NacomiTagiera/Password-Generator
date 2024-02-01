@@ -4,9 +4,14 @@ import { Card } from '.';
 
 describe('Card', () => {
   it('renders correctly', () => {
-    render(<Card>Test content</Card>);
-    const cardEl = screen.getByText('Test content');
-    expect(cardEl).toBeInTheDocument();
-    expect(cardEl.tagName).toBe('MAIN');
+    const { asFragment } = render(<Card>Test</Card>);
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('displays its children', () => {
+    render(<Card>Test</Card>);
+
+    expect(screen.getByText('Test'));
   });
 });
